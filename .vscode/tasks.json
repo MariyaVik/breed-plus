@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Create Flutter Project from Template",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile", "-Command",
+                "[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms') | Out-Null; $folder = (New-Object System.Windows.Forms.FolderBrowserDialog).ShowDialog(); if ($folder -eq 'OK') { $folder = (New-Object System.Windows.Forms.FolderBrowserDialog).SelectedPath; flutter create --template=D:/Maria/Apps/template $folder/${input:projectName} }"
+            ],
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "projectName",
+            "type": "promptString",
+            "description": "Enter the name of your new Flutter project",
+            "default": "my_flutter_project"
+        }
+    ]
+}
