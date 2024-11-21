@@ -11,6 +11,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   go_router:
   flutter_svg:
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.5
 
 dev_dependencies:
   flutter_test:
