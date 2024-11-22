@@ -3,7 +3,29 @@
 import 'dart:async';
 import "package:excel/excel.dart";
 
-void assertValue(String? expected, String? actual) {
+bool isNumeric(String? s) {
+  if (s == null) {
+    return false;
+  }
+  return double.tryParse(s) != null;
+}
+
+bool isUInt(String? s) {
+  if (s == null) {
+    return false;
+  }
+  final numeric = RegExp(r'^[0-9]+$');
+  return numeric.hasMatch(s);
+}
+
+bool isDateTime(String? s) {
+  if (s == null) {
+    return false;
+  }
+  return DateTime.tryParse(s) != null;
+}
+
+void assertValue(dynamic expected, dynamic actual) {
   if (expected != actual) {
     throw Exception('Ожидал [$expected], получил [$actual]');
   }
@@ -44,7 +66,7 @@ String? getCellValue(Data cell) {
   }
 }
 
-List<String?> assertHeader(row) {
+List<String?> assertRow(row) {
   final rowData = readTableRow(row);
   // Assert assumptions
   if (row.length != 13) {
@@ -64,6 +86,22 @@ List<String?> assertHeader(row) {
     assertValue(rowData[10], "Здоровье (1-10)");
     assertValue(rowData[11], "Фертильность (%)");
     assertValue(rowData[12], "Генетическая ценность (баллы)");
+  } else {
+    assertValue(isUInt(rowData[0]), true);
+    assertValue(["Самка", "Самец"].contains(rowData[1]), true);
+    assertValue(rowData[2] != null, true);
+    assertValue(isDateTime(rowData[3]), true);
+    //
+    assertValue(isNumeric(rowData[4]), true);
+    assertValue(isNumeric(rowData[5]), true);
+    assertValue(isNumeric(rowData[6]), true);
+    assertValue(isNumeric(rowData[7]), true);
+    assertValue(isNumeric(rowData[8]), true);
+    assertValue(isNumeric(rowData[9]), true);
+    assertValue(isNumeric(rowData[10]), true);
+    assertValue(isNumeric(rowData[11]), true);
+    assertValue(isNumeric(rowData[12]), true);
+    assertValue(isNumeric(rowData[13]), true);
   }
   return rowData;
 }
@@ -77,7 +115,7 @@ class API {
       final table = excel.tables[tableKey];
       if (table == null) continue;
       for (var row in table.rows) {
-        final rowData = assertHeader(row);
+        final rowData = assertRow(row);
       }
     }
 
