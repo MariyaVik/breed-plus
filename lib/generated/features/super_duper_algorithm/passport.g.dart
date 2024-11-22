@@ -15,12 +15,12 @@ _$PassportImpl _$$PassportImplFromJson(Map<String, dynamic> json) =>
       father: (json['father'] as num).toInt(),
       mother: (json['mother'] as num).toInt(),
       milk: (json['milk'] as num?)?.toDouble(),
-      fatness: (json['fatness'] as num?)?.toInt(),
-      inbredding: (json['inbredding'] as num?)?.toDouble(),
+      fatness: (json['fatness'] as num).toInt(),
+      inbredding: (json['inbredding'] as num).toDouble(),
       weightGain: (json['weightGain'] as num?)?.toDouble(),
-      health: (json['health'] as num?)?.toInt(),
+      health: (json['health'] as num).toInt(),
       fertility: (json['fertility'] as num?)?.toInt(),
-      worth: (json['worth'] as num?)?.toInt(),
+      worth: (json['worth'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$PassportImplToJson(_$PassportImpl instance) =>
