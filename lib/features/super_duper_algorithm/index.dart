@@ -5,31 +5,31 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class API {
-  static void loadXls() {
-    throw Error();
+  static Future loadXls() {
+    throw Future.error(Error());
   }
 
-  static void loadXlsx() {
-    throw Error();
+  static Future loadXlsx() {
+    throw Future.error(Error());
   }
 
-  static void loadTSV() {
-    throw Error();
+  static Future loadTSV() {
+    throw Future.error(Error());
   }
 
-  static void loadCFV() {
-    throw Error();
+  static Future loadCFV() {
+    throw Future.error(Error());
   }
 
-  static void matchFemale() {
-    throw Error();
+  static Future matchFemale() {
+    throw Future.error(Error());
   }
 
-  static void matchMale() {
-    throw Error();
+  static Future matchMale() {
+    throw Future.error(Error());
   }
 
-  static void matchAll() {
-    throw Error();
+  static Future matchAll() {
+    throw Future.error(Error());
   }
 }
