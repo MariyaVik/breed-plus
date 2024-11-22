@@ -15,12 +15,12 @@ class Passport with _$Passport {
     required int father,
     required int mother,
     double? milk,
-    int? fatness,
-    double? inbredding,
+    required fatness,
+    required inbredding,
     double? weightGain,
-    int? health,
+    required health,
     int? fertility,
-    int? worth,
+    required worth,
   }) = _Passport;
 
   const Passport._();
