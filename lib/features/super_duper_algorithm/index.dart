@@ -134,40 +134,40 @@ void packData() {}
 
 class API {
   static Future loadXlsPassport(List<int> bytes) {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
-  static Future loadXlsxPassport(List<int> bytes) {
-    final result = [] as List<Passport>;
+  static Future<void> loadXlsxPassport(List<int> bytes) {
+    final passports = [] as List<Passport>;
     var excel = Excel.decodeBytes(bytes);
     for (var tableKey in excel.tables.keys) {
       final table = excel.tables[tableKey];
       if (table == null) continue;
       for (var row in table.rows) {
-        final rowData = assertRow(row, result);
+        assertRow(row, passports);
       }
     }
 
-    throw Future.error(Error());
+    return Backend.bulkInsertPassports(passports);
   }
 
   static Future loadTSVPassport(List<int> bytes) {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future loadCFVPassport(List<int> bytes) {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future matchFemale() {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future matchMale() {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future matchAll() {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 }

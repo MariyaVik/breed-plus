@@ -1,7 +1,7 @@
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class Backend {
   static Database? database;
@@ -21,6 +21,8 @@ class Backend {
 
   static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
 
     Backend.database = await openDatabase(
       join(await getDatabasesPath(), 'hackathon.db'),
