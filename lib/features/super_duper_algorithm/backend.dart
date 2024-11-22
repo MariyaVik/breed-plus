@@ -1,21 +1,48 @@
+import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Backend {
+  static Database? database;
+
+  static Future<void> bulkInsertPassports(List<Passport> passports) async {
+    if (Backend.database == null) {
+      return Future.error(Exception("База не задана"));
+    }
+    for (final passport in passports) {
+      await Backend.database!.insert(
+        'passports',
+        passport.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  }
+
   static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
-    // Open the database and store the reference.
-    final database = openDatabase(
-      // Set the path to the database. Note: Using the `join` function from the
-      // `path` package is best practice to ensure the path is correctly
-      // constructed for each platform.
-      join(await getDatabasesPath(), 'doggie_database.db'),
+
+    Backend.database = await openDatabase(
+      join(await getDatabasesPath(), 'hackathon.db'),
+      version: 1,
       onCreate: (db, version) {
-        // Run the CREATE TABLE statement on the database.
-        return db.execute(
-          'CREATE TABLE passports (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)',
-        );
+        return db.execute(''
+            'CREATE TABLE passports ('
+            'id INTEGER PRIMARY KEY,'
+            'gender TEXT,'
+            'breed TEXT,'
+            'bday TEXT,'
+            'father TEXT,'
+            'mother TEXT,'
+            'milk TEXT,'
+            'fatness TEXT,'
+            'inbredding TEXT,'
+            'weightGain TEXT,'
+            'health TEXT,'
+            'fertility TEXT,'
+            'worth TEXT'
+            ')'
+            '');
       },
     );
   }
