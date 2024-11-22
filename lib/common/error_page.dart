@@ -24,7 +24,7 @@ class ErrorPage extends StatelessWidget {
             const SizedBox(height: 16),
             OutlinedButton(
               onPressed: () {
-                context.goNamed(RouteName.home);
+                context.goNamed(RouteName.base);
               },
               child: const Text('На главную'),
             ),

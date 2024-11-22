@@ -14,8 +14,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController()
+    ..text = 'user';
+  final TextEditingController _passwordController = TextEditingController()
+    ..text = '123';
 
   String? _usernameError;
   String? _passwordError;
@@ -29,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = true;
       setState(() {});
       await Future.delayed(const Duration(milliseconds: 700));
-      context.goNamed(RouteName.home);
+      context.goNamed(RouteName.base);
       // final username = _usernameController.text;
       // final password = _passwordController.text;
       // context.read<AuthCubit>().login(username, password);
@@ -58,12 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 200),
+              SizedBox(height: MediaQuery.sizeOf(context).height / 3),
               Text(
-                'Text about application',
+                'Порода+',
                 style: Theme.of(context)
                     .textTheme
-                    .titleMedium!
+                    .headlineLarge!
                     .copyWith(fontWeight: FontWeight.bold, height: 1.2),
               ),
               SizedBox(height: 48),

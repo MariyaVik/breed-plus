@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/home/ui/home_screen.dart';
+import '../../features/base/ui/base_screen.dart';
 import '../../features/login/ui/login_screen.dart';
 import '../error_page.dart';
 import 'route_name.dart';
@@ -20,9 +20,9 @@ class AppRouter {
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
-        name: RouteName.home,
-        path: '/${RouteName.home}',
-        builder: (context, state) => const HomeScreen(),
+        name: RouteName.base,
+        path: '/${RouteName.base}',
+        builder: (context, state) => BaseScreen(),
       ),
     ],
     errorPageBuilder: (context, state) {
