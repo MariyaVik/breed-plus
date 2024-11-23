@@ -30,8 +30,12 @@ mixin _$Genotype {
   String get genotype => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
 
+  /// Serializes this Genotype to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Genotype
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GenotypeCopyWith<Genotype> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,6 +67,8 @@ class _$GenotypeCopyWithImpl<$Res, $Val extends Genotype>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Genotype
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,6 +151,8 @@ class __$$GenotypeImplCopyWithImpl<$Res>
       _$GenotypeImpl _value, $Res Function(_$GenotypeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Genotype
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,12 +270,14 @@ class _$GenotypeImpl extends _Genotype {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, mutationId, chrom, pos, ref, alt,
       attribute, beta, genotype, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Genotype
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GenotypeImplCopyWith<_$GenotypeImpl> get copyWith =>
@@ -304,10 +314,10 @@ abstract class _Genotype extends Genotype {
   @override
   int get pos;
   @override
-  String get ref;
-  @override // enum?
-  String get alt;
-  @override // enum?
+  String get ref; // enum?
+  @override
+  String get alt; // enum?
+  @override
   String get attribute;
   @override
   double get beta;
@@ -315,8 +325,11 @@ abstract class _Genotype extends Genotype {
   String get genotype;
   @override
   int get id;
+
+  /// Create a copy of Genotype
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GenotypeImplCopyWith<_$GenotypeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

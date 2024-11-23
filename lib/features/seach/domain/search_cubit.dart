@@ -1,4 +1,6 @@
+import 'package:breed_plus/features/profile/data/mok.dart';
 import 'package:breed_plus/features/super_duper_algorithm/attribute.dart';
+import 'package:breed_plus/features/super_duper_algorithm/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../super_duper_algorithm/attribute_for_api.dart';
 import '../../super_duper_algorithm/passport.dart';
@@ -6,18 +8,6 @@ import 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(const SearchState());
-
-  // final List<AttributeForApi> _temporaryAttributes = [];
-
-  // void toggleAddingAttribute() {
-  //   final isAddingAttribute = !(state.isAddingAttribute ?? false);
-  //   emit(state.copyWith(isAddingAttribute: isAddingAttribute));
-  // }
-
-  // void toggleNewAttribute() {
-  //   final isAddingAttribute = !(state.isNewAttribute ?? false);
-  //   emit(state.copyWith(isNewAttribute: isAddingAttribute));
-  // }
 
   void selectFemale(Passport passport) {
     emit(state.copyWith(female: passport));
@@ -27,8 +17,19 @@ class SearchCubit extends Cubit<SearchState> {
     emit(state.copyWith(mainAttribute: mainAttribute));
   }
 
+  void matchAnimal() async {
+    if (state.female != null) {
+      emit(state.copyWith(isloading: true));
+      final res =
+          passports.sublist(0, 6); // await API.matchAnimal(state.female!.id);
+      // emit(state.copyWith(
+      //     foundedMales: res.map<Passport>((e) => e.passport).toList()));
+      await Future.delayed(Duration(milliseconds: 700));
+      emit(state.copyWith(foundedMales: res, isloading: false));
+    } else {}
+  }
+
   void updateAttributes(List<AttributeForApi> list) {
-    print(list);
     emit(state.copyWith(optionAttributes: list));
   }
 

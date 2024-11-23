@@ -24,8 +24,12 @@ mixin _$AttributeForApi {
   num? get minValue => throw _privateConstructorUsedError;
   num? get maxValue => throw _privateConstructorUsedError;
 
+  /// Serializes this AttributeForApi to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AttributeForApi
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AttributeForApiCopyWith<AttributeForApi> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$AttributeForApiCopyWithImpl<$Res, $Val extends AttributeForApi>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AttributeForApi
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$AttributeForApiImplCopyWithImpl<$Res>
       _$AttributeForApiImpl _value, $Res Function(_$AttributeForApiImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AttributeForApi
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -150,11 +158,13 @@ class _$AttributeForApiImpl implements _AttributeForApi {
                 other.maxValue == maxValue));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, attribute, minValue, maxValue);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AttributeForApi
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AttributeForApiImplCopyWith<_$AttributeForApiImpl> get copyWith =>
@@ -184,8 +194,11 @@ abstract class _AttributeForApi implements AttributeForApi {
   num? get minValue;
   @override
   num? get maxValue;
+
+  /// Create a copy of AttributeForApi
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AttributeForApiImplCopyWith<_$AttributeForApiImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

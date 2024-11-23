@@ -25,9 +25,14 @@ mixin _$SearchState {
   List<AttributeForApi>? get optionAttributes =>
       throw _privateConstructorUsedError;
   List<Passport>? get foundedMales => throw _privateConstructorUsedError;
+  bool get isloading => throw _privateConstructorUsedError;
 
+  /// Serializes this SearchState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchStateCopyWith<SearchState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,7 +47,8 @@ abstract class $SearchStateCopyWith<$Res> {
       {Passport? female,
       Attribute? mainAttribute,
       List<AttributeForApi>? optionAttributes,
-      List<Passport>? foundedMales});
+      List<Passport>? foundedMales,
+      bool isloading});
 
   $PassportCopyWith<$Res>? get female;
 }
@@ -57,6 +63,8 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64,6 +72,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
     Object? mainAttribute = freezed,
     Object? optionAttributes = freezed,
     Object? foundedMales = freezed,
+    Object? isloading = null,
   }) {
     return _then(_value.copyWith(
       female: freezed == female
@@ -82,9 +91,15 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.foundedMales
           : foundedMales // ignore: cast_nullable_to_non_nullable
               as List<Passport>?,
+      isloading: null == isloading
+          ? _value.isloading
+          : isloading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $PassportCopyWith<$Res>? get female {
@@ -110,7 +125,8 @@ abstract class _$$SearchStateImplCopyWith<$Res>
       {Passport? female,
       Attribute? mainAttribute,
       List<AttributeForApi>? optionAttributes,
-      List<Passport>? foundedMales});
+      List<Passport>? foundedMales,
+      bool isloading});
 
   @override
   $PassportCopyWith<$Res>? get female;
@@ -124,6 +140,8 @@ class __$$SearchStateImplCopyWithImpl<$Res>
       _$SearchStateImpl _value, $Res Function(_$SearchStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -131,6 +149,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
     Object? mainAttribute = freezed,
     Object? optionAttributes = freezed,
     Object? foundedMales = freezed,
+    Object? isloading = null,
   }) {
     return _then(_$SearchStateImpl(
       female: freezed == female
@@ -149,6 +168,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value._foundedMales
           : foundedMales // ignore: cast_nullable_to_non_nullable
               as List<Passport>?,
+      isloading: null == isloading
+          ? _value.isloading
+          : isloading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -160,7 +183,8 @@ class _$SearchStateImpl implements _SearchState {
       {this.female,
       this.mainAttribute,
       final List<AttributeForApi>? optionAttributes,
-      final List<Passport>? foundedMales})
+      final List<Passport>? foundedMales,
+      this.isloading = false})
       : _optionAttributes = optionAttributes,
         _foundedMales = foundedMales;
 
@@ -193,8 +217,12 @@ class _$SearchStateImpl implements _SearchState {
   }
 
   @override
+  @JsonKey()
+  final bool isloading;
+
+  @override
   String toString() {
-    return 'SearchState(female: $female, mainAttribute: $mainAttribute, optionAttributes: $optionAttributes, foundedMales: $foundedMales)';
+    return 'SearchState(female: $female, mainAttribute: $mainAttribute, optionAttributes: $optionAttributes, foundedMales: $foundedMales, isloading: $isloading)';
   }
 
   @override
@@ -208,19 +236,24 @@ class _$SearchStateImpl implements _SearchState {
             const DeepCollectionEquality()
                 .equals(other._optionAttributes, _optionAttributes) &&
             const DeepCollectionEquality()
-                .equals(other._foundedMales, _foundedMales));
+                .equals(other._foundedMales, _foundedMales) &&
+            (identical(other.isloading, isloading) ||
+                other.isloading == isloading));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       female,
       mainAttribute,
       const DeepCollectionEquality().hash(_optionAttributes),
-      const DeepCollectionEquality().hash(_foundedMales));
+      const DeepCollectionEquality().hash(_foundedMales),
+      isloading);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>
@@ -239,7 +272,8 @@ abstract class _SearchState implements SearchState {
       {final Passport? female,
       final Attribute? mainAttribute,
       final List<AttributeForApi>? optionAttributes,
-      final List<Passport>? foundedMales}) = _$SearchStateImpl;
+      final List<Passport>? foundedMales,
+      final bool isloading}) = _$SearchStateImpl;
 
   factory _SearchState.fromJson(Map<String, dynamic> json) =
       _$SearchStateImpl.fromJson;
@@ -253,7 +287,12 @@ abstract class _SearchState implements SearchState {
   @override
   List<Passport>? get foundedMales;
   @override
-  @JsonKey(ignore: true)
+  bool get isloading;
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -43,6 +43,28 @@ class SearchPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('Выьираем партнера для ${searchState.female!.id}'),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey,
+                            ),
+                            Column(
+                              children: [
+                                Text('Особь № ${searchState.female!.id}'),
+                                Text('Удой ${searchState.female!.milk}'),
+                                Text(
+                                    'Упитанность ${searchState.female!.fatness}'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     ChooseMainAttribute(),
                     // if (searchState.mainAttribute != null)
                     //   Text('Main attribute - ${searchState.mainAttribute}'),
@@ -54,7 +76,7 @@ class SearchPage extends StatelessWidget {
                       onPressed: searchState.mainAttribute == null
                           ? null
                           : () {
-                              API.matchAnimal(searchState.female!.id);
+                              context.read<SearchCubit>().matchAnimal();
                             },
                       child: Text('Начать поиск'),
                     ),

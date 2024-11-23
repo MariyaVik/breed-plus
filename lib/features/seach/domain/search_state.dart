@@ -14,6 +14,7 @@ class SearchState with _$SearchState {
     Attribute? mainAttribute,
     List<AttributeForApi>? optionAttributes,
     List<Passport>? foundedMales,
+    @Default(false) bool isloading,
   }) = _SearchState;
 
   factory SearchState.fromJson(Map<String, dynamic> json) =>

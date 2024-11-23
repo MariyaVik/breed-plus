@@ -19,6 +19,7 @@ _$SearchStateImpl _$$SearchStateImplFromJson(Map<String, dynamic> json) =>
       foundedMales: (json['foundedMales'] as List<dynamic>?)
           ?.map((e) => Passport.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isloading: json['isloading'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$SearchStateImplToJson(_$SearchStateImpl instance) =>
@@ -27,6 +28,7 @@ Map<String, dynamic> _$$SearchStateImplToJson(_$SearchStateImpl instance) =>
       'mainAttribute': _$AttributeEnumMap[instance.mainAttribute],
       'optionAttributes': instance.optionAttributes,
       'foundedMales': instance.foundedMales,
+      'isloading': instance.isloading,
     };
 
 const _$AttributeEnumMap = {

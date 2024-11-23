@@ -34,8 +34,12 @@ mixin _$Passport {
   int? get fertility => throw _privateConstructorUsedError;
   int get worth => throw _privateConstructorUsedError;
 
+  /// Serializes this Passport to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Passport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PassportCopyWith<Passport> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,6 +75,8 @@ class _$PassportCopyWithImpl<$Res, $Val extends Passport>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Passport
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,6 +183,8 @@ class __$$PassportImplCopyWithImpl<$Res>
       _$PassportImpl _value, $Res Function(_$PassportImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Passport
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -329,12 +337,14 @@ class _$PassportImpl extends _Passport {
             (identical(other.worth, worth) || other.worth == worth));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, gender, breed, bday, father,
       mother, milk, fatness, inbredding, weightGain, health, fertility, worth);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Passport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PassportImplCopyWith<_$PassportImpl> get copyWith =>
@@ -373,8 +383,8 @@ abstract class _Passport extends Passport {
   @override
   Gender get gender;
   @override
-  String get breed;
-  @override // enum ?
+  String get breed; // enum ?
+  @override
   DateTime get bday;
   @override
   int get father;
@@ -394,8 +404,11 @@ abstract class _Passport extends Passport {
   int? get fertility;
   @override
   int get worth;
+
+  /// Create a copy of Passport
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PassportImplCopyWith<_$PassportImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
