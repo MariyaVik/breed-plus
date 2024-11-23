@@ -52,12 +52,12 @@ class Backend {
     return rawCow.map(Passport.fromJson).toList();
   }
 
-  static Future<List<Genotype>> getCowGenotype(int id) async {
+  static Future<List<Genotype>> getCowGenotypes(int cowId) async {
     if (Backend.database == null) {
       return Future.error(Exception("База не задана"));
     }
     final rawCow = await Backend.database!
-        .query('genetics', where: "id = ?", whereArgs: [id]);
+        .query('genetics', where: "id = ?", whereArgs: [cowId]);
     return rawCow.map(Genotype.fromJson).toList();
   }
 
