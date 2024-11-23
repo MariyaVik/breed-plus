@@ -8,6 +8,13 @@ import 'package:breed_plus/features/super_duper_algorithm/table_handler/genotype
 import 'package:breed_plus/features/super_duper_algorithm/table_handler/passport.dart';
 import "package:excel/excel.dart";
 
+class CowApiResponse {
+  final Passport passport;
+  final List<Genotype> genotypes;
+
+  CowApiResponse({required this.passport, required this.genotypes});
+}
+
 class API {
   static Future loadXlsPassport(List<int> bytes) {
     throw Future.error(Exception("Not implemented"));
@@ -19,6 +26,17 @@ class API {
 
   static Future<List<Passport>> getMyAnimales() async {
     return await Backend.getCows();
+  }
+
+  static Future<CowApiResponse> getCow(int id) async {
+    final passport = await Backend.getCow(id);
+    final genotypes = await Backend.getCowGenotypes(id);
+    return CowApiResponse(passport: passport, genotypes: genotypes);
+  }
+
+  static Future<void> setCowMilk(
+      int cowId, int recordDays, double amountOfMilk) async {
+    return Backend.setCowMilk(cowId, recordDays, amountOfMilk);
   }
 
   static Future<void> loadXlsxPassport(List<int> bytes) {
