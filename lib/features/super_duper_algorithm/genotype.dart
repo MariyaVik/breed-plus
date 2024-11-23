@@ -10,7 +10,7 @@ class Genotype with _$Genotype {
   const factory Genotype({
     required String mutationId,
     required int chrom,
-    required String pos,
+    required int pos,
     required String ref, // enum?
     required String alt, // enum?
     required String attribute,

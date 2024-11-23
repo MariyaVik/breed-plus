@@ -10,7 +10,7 @@ _$GenotypeImpl _$$GenotypeImplFromJson(Map<String, dynamic> json) =>
     _$GenotypeImpl(
       mutationId: json['mutationId'] as String,
       chrom: (json['chrom'] as num).toInt(),
-      pos: json['pos'] as String,
+      pos: (json['pos'] as num).toInt(),
       ref: json['ref'] as String,
       alt: json['alt'] as String,
       attribute: json['attribute'] as String,

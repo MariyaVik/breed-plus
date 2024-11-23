@@ -22,7 +22,7 @@ Genotype _$GenotypeFromJson(Map<String, dynamic> json) {
 mixin _$Genotype {
   String get mutationId => throw _privateConstructorUsedError;
   int get chrom => throw _privateConstructorUsedError;
-  String get pos => throw _privateConstructorUsedError;
+  int get pos => throw _privateConstructorUsedError;
   String get ref => throw _privateConstructorUsedError; // enum?
   String get alt => throw _privateConstructorUsedError; // enum?
   String get attribute => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $GenotypeCopyWith<$Res> {
   $Res call(
       {String mutationId,
       int chrom,
-      String pos,
+      int pos,
       String ref,
       String alt,
       String attribute,
@@ -88,7 +88,7 @@ class _$GenotypeCopyWithImpl<$Res, $Val extends Genotype>
       pos: null == pos
           ? _value.pos
           : pos // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       ref: null == ref
           ? _value.ref
           : ref // ignore: cast_nullable_to_non_nullable
@@ -128,7 +128,7 @@ abstract class _$$GenotypeImplCopyWith<$Res>
   $Res call(
       {String mutationId,
       int chrom,
-      String pos,
+      int pos,
       String ref,
       String alt,
       String attribute,
@@ -170,7 +170,7 @@ class __$$GenotypeImplCopyWithImpl<$Res>
       pos: null == pos
           ? _value.pos
           : pos // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       ref: null == ref
           ? _value.ref
           : ref // ignore: cast_nullable_to_non_nullable
@@ -222,7 +222,7 @@ class _$GenotypeImpl extends _Genotype {
   @override
   final int chrom;
   @override
-  final String pos;
+  final int pos;
   @override
   final String ref;
 // enum?
@@ -285,7 +285,7 @@ abstract class _Genotype extends Genotype {
   const factory _Genotype(
       {required final String mutationId,
       required final int chrom,
-      required final String pos,
+      required final int pos,
       required final String ref,
       required final String alt,
       required final String attribute,
@@ -302,7 +302,7 @@ abstract class _Genotype extends Genotype {
   @override
   int get chrom;
   @override
-  String get pos;
+  int get pos;
   @override
   String get ref;
   @override // enum?
