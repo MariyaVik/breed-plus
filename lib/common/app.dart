@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/base/domain/app_cubit.dart';
+import '../features/seach/domain/search_cubit.dart';
 import 'navigation/app_router.dart';
 import 'theme/app_theme.dart';
 
@@ -14,10 +15,11 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppCubit>(create: (_) => AppCubit()),
+        BlocProvider<SearchCubit>(create: (_) => SearchCubit()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'Новое приложение',
+        title: 'Порода+',
         theme: AppTheme().light,
         routerDelegate: appRouter.router.routerDelegate,
         routeInformationParser: appRouter.router.routeInformationParser,

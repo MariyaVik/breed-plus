@@ -12,7 +12,7 @@ class AppRouter {
   late final router = GoRouter(
     navigatorKey: navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/${RouteName.login}',
+    initialLocation: '/${RouteName.base}',
     routes: [
       GoRoute(
         name: RouteName.login,

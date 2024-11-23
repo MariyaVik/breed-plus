@@ -1,4 +1,7 @@
+import 'package:breed_plus/features/base/domain/app_cubit.dart';
+import 'package:breed_plus/features/seach/domain/search_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/mok.dart';
 import 'widgets/grid_column_widget.dart';
@@ -46,6 +49,15 @@ class ProfilePage extends StatelessWidget {
                             Text(passports[index].gender.toString()),
                             Text(calculateAge(passports[index].bday)),
                           ],
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            context
+                                .read<SearchCubit>()
+                                .selectFemale(passports[index]);
+                            context.read<AppCubit>().selectTab(0);
+                          },
+                          child: Text('Выбрать партнера'),
                         ),
                       ],
                     ),

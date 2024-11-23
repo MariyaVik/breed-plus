@@ -20,7 +20,10 @@ SearchState _$SearchStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SearchState {
-  Passport? get selectedTab => throw _privateConstructorUsedError;
+  Passport? get female => throw _privateConstructorUsedError;
+  Attribute? get mainAttribute => throw _privateConstructorUsedError;
+  List<Attribute>? get optionAttributes => throw _privateConstructorUsedError;
+  List<Passport>? get foundedMales => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,9 +37,13 @@ abstract class $SearchStateCopyWith<$Res> {
           SearchState value, $Res Function(SearchState) then) =
       _$SearchStateCopyWithImpl<$Res, SearchState>;
   @useResult
-  $Res call({Passport? selectedTab});
+  $Res call(
+      {Passport? female,
+      Attribute? mainAttribute,
+      List<Attribute>? optionAttributes,
+      List<Passport>? foundedMales});
 
-  $PassportCopyWith<$Res>? get selectedTab;
+  $PassportCopyWith<$Res>? get female;
 }
 
 /// @nodoc
@@ -52,25 +59,40 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedTab = freezed,
+    Object? female = freezed,
+    Object? mainAttribute = freezed,
+    Object? optionAttributes = freezed,
+    Object? foundedMales = freezed,
   }) {
     return _then(_value.copyWith(
-      selectedTab: freezed == selectedTab
-          ? _value.selectedTab
-          : selectedTab // ignore: cast_nullable_to_non_nullable
+      female: freezed == female
+          ? _value.female
+          : female // ignore: cast_nullable_to_non_nullable
               as Passport?,
+      mainAttribute: freezed == mainAttribute
+          ? _value.mainAttribute
+          : mainAttribute // ignore: cast_nullable_to_non_nullable
+              as Attribute?,
+      optionAttributes: freezed == optionAttributes
+          ? _value.optionAttributes
+          : optionAttributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute>?,
+      foundedMales: freezed == foundedMales
+          ? _value.foundedMales
+          : foundedMales // ignore: cast_nullable_to_non_nullable
+              as List<Passport>?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $PassportCopyWith<$Res>? get selectedTab {
-    if (_value.selectedTab == null) {
+  $PassportCopyWith<$Res>? get female {
+    if (_value.female == null) {
       return null;
     }
 
-    return $PassportCopyWith<$Res>(_value.selectedTab!, (value) {
-      return _then(_value.copyWith(selectedTab: value) as $Val);
+    return $PassportCopyWith<$Res>(_value.female!, (value) {
+      return _then(_value.copyWith(female: value) as $Val);
     });
   }
 }
@@ -83,10 +105,14 @@ abstract class _$$SearchStateImplCopyWith<$Res>
       __$$SearchStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Passport? selectedTab});
+  $Res call(
+      {Passport? female,
+      Attribute? mainAttribute,
+      List<Attribute>? optionAttributes,
+      List<Passport>? foundedMales});
 
   @override
-  $PassportCopyWith<$Res>? get selectedTab;
+  $PassportCopyWith<$Res>? get female;
 }
 
 /// @nodoc
@@ -100,13 +126,28 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedTab = freezed,
+    Object? female = freezed,
+    Object? mainAttribute = freezed,
+    Object? optionAttributes = freezed,
+    Object? foundedMales = freezed,
   }) {
     return _then(_$SearchStateImpl(
-      selectedTab: freezed == selectedTab
-          ? _value.selectedTab
-          : selectedTab // ignore: cast_nullable_to_non_nullable
+      female: freezed == female
+          ? _value.female
+          : female // ignore: cast_nullable_to_non_nullable
               as Passport?,
+      mainAttribute: freezed == mainAttribute
+          ? _value.mainAttribute
+          : mainAttribute // ignore: cast_nullable_to_non_nullable
+              as Attribute?,
+      optionAttributes: freezed == optionAttributes
+          ? _value._optionAttributes
+          : optionAttributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute>?,
+      foundedMales: freezed == foundedMales
+          ? _value._foundedMales
+          : foundedMales // ignore: cast_nullable_to_non_nullable
+              as List<Passport>?,
     ));
   }
 }
@@ -114,17 +155,45 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SearchStateImpl implements _SearchState {
-  const _$SearchStateImpl({this.selectedTab});
+  const _$SearchStateImpl(
+      {this.female,
+      this.mainAttribute,
+      final List<Attribute>? optionAttributes,
+      final List<Passport>? foundedMales})
+      : _optionAttributes = optionAttributes,
+        _foundedMales = foundedMales;
 
   factory _$SearchStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchStateImplFromJson(json);
 
   @override
-  final Passport? selectedTab;
+  final Passport? female;
+  @override
+  final Attribute? mainAttribute;
+  final List<Attribute>? _optionAttributes;
+  @override
+  List<Attribute>? get optionAttributes {
+    final value = _optionAttributes;
+    if (value == null) return null;
+    if (_optionAttributes is EqualUnmodifiableListView)
+      return _optionAttributes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<Passport>? _foundedMales;
+  @override
+  List<Passport>? get foundedMales {
+    final value = _foundedMales;
+    if (value == null) return null;
+    if (_foundedMales is EqualUnmodifiableListView) return _foundedMales;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'SearchState(selectedTab: $selectedTab)';
+    return 'SearchState(female: $female, mainAttribute: $mainAttribute, optionAttributes: $optionAttributes, foundedMales: $foundedMales)';
   }
 
   @override
@@ -132,13 +201,23 @@ class _$SearchStateImpl implements _SearchState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchStateImpl &&
-            (identical(other.selectedTab, selectedTab) ||
-                other.selectedTab == selectedTab));
+            (identical(other.female, female) || other.female == female) &&
+            (identical(other.mainAttribute, mainAttribute) ||
+                other.mainAttribute == mainAttribute) &&
+            const DeepCollectionEquality()
+                .equals(other._optionAttributes, _optionAttributes) &&
+            const DeepCollectionEquality()
+                .equals(other._foundedMales, _foundedMales));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, selectedTab);
+  int get hashCode => Object.hash(
+      runtimeType,
+      female,
+      mainAttribute,
+      const DeepCollectionEquality().hash(_optionAttributes),
+      const DeepCollectionEquality().hash(_foundedMales));
 
   @JsonKey(ignore: true)
   @override
@@ -155,13 +234,23 @@ class _$SearchStateImpl implements _SearchState {
 }
 
 abstract class _SearchState implements SearchState {
-  const factory _SearchState({final Passport? selectedTab}) = _$SearchStateImpl;
+  const factory _SearchState(
+      {final Passport? female,
+      final Attribute? mainAttribute,
+      final List<Attribute>? optionAttributes,
+      final List<Passport>? foundedMales}) = _$SearchStateImpl;
 
   factory _SearchState.fromJson(Map<String, dynamic> json) =
       _$SearchStateImpl.fromJson;
 
   @override
-  Passport? get selectedTab;
+  Passport? get female;
+  @override
+  Attribute? get mainAttribute;
+  @override
+  List<Attribute>? get optionAttributes;
+  @override
+  List<Passport>? get foundedMales;
   @override
   @JsonKey(ignore: true)
   _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>
