@@ -14,21 +14,15 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-SearchState _$SearchStateFromJson(Map<String, dynamic> json) {
-  return _SearchState.fromJson(json);
-}
-
 /// @nodoc
 mixin _$SearchState {
   Passport? get female => throw _privateConstructorUsedError;
   Attribute? get mainAttribute => throw _privateConstructorUsedError;
   List<AttributeForApi>? get optionAttributes =>
       throw _privateConstructorUsedError;
-  List<Passport>? get foundedMales => throw _privateConstructorUsedError;
+  List<ReproductionResponse>? get foundedMales =>
+      throw _privateConstructorUsedError;
   bool get isloading => throw _privateConstructorUsedError;
-
-  /// Serializes this SearchState to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -47,7 +41,7 @@ abstract class $SearchStateCopyWith<$Res> {
       {Passport? female,
       Attribute? mainAttribute,
       List<AttributeForApi>? optionAttributes,
-      List<Passport>? foundedMales,
+      List<ReproductionResponse>? foundedMales,
       bool isloading});
 
   $PassportCopyWith<$Res>? get female;
@@ -90,7 +84,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
       foundedMales: freezed == foundedMales
           ? _value.foundedMales
           : foundedMales // ignore: cast_nullable_to_non_nullable
-              as List<Passport>?,
+              as List<ReproductionResponse>?,
       isloading: null == isloading
           ? _value.isloading
           : isloading // ignore: cast_nullable_to_non_nullable
@@ -125,7 +119,7 @@ abstract class _$$SearchStateImplCopyWith<$Res>
       {Passport? female,
       Attribute? mainAttribute,
       List<AttributeForApi>? optionAttributes,
-      List<Passport>? foundedMales,
+      List<ReproductionResponse>? foundedMales,
       bool isloading});
 
   @override
@@ -167,7 +161,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
       foundedMales: freezed == foundedMales
           ? _value._foundedMales
           : foundedMales // ignore: cast_nullable_to_non_nullable
-              as List<Passport>?,
+              as List<ReproductionResponse>?,
       isloading: null == isloading
           ? _value.isloading
           : isloading // ignore: cast_nullable_to_non_nullable
@@ -177,19 +171,16 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {this.female,
       this.mainAttribute,
       final List<AttributeForApi>? optionAttributes,
-      final List<Passport>? foundedMales,
+      final List<ReproductionResponse>? foundedMales,
       this.isloading = false})
       : _optionAttributes = optionAttributes,
         _foundedMales = foundedMales;
-
-  factory _$SearchStateImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SearchStateImplFromJson(json);
 
   @override
   final Passport? female;
@@ -206,9 +197,9 @@ class _$SearchStateImpl implements _SearchState {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Passport>? _foundedMales;
+  final List<ReproductionResponse>? _foundedMales;
   @override
-  List<Passport>? get foundedMales {
+  List<ReproductionResponse>? get foundedMales {
     final value = _foundedMales;
     if (value == null) return null;
     if (_foundedMales is EqualUnmodifiableListView) return _foundedMales;
@@ -241,7 +232,6 @@ class _$SearchStateImpl implements _SearchState {
                 other.isloading == isloading));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -258,13 +248,6 @@ class _$SearchStateImpl implements _SearchState {
   @pragma('vm:prefer-inline')
   _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>
       __$$SearchStateImplCopyWithImpl<_$SearchStateImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SearchStateImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _SearchState implements SearchState {
@@ -272,11 +255,8 @@ abstract class _SearchState implements SearchState {
       {final Passport? female,
       final Attribute? mainAttribute,
       final List<AttributeForApi>? optionAttributes,
-      final List<Passport>? foundedMales,
+      final List<ReproductionResponse>? foundedMales,
       final bool isloading}) = _$SearchStateImpl;
-
-  factory _SearchState.fromJson(Map<String, dynamic> json) =
-      _$SearchStateImpl.fromJson;
 
   @override
   Passport? get female;
@@ -285,7 +265,7 @@ abstract class _SearchState implements SearchState {
   @override
   List<AttributeForApi>? get optionAttributes;
   @override
-  List<Passport>? get foundedMales;
+  List<ReproductionResponse>? get foundedMales;
   @override
   bool get isloading;
 

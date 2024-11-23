@@ -72,13 +72,31 @@ class SearchPage extends StatelessWidget {
                     //   onPressed: () {},
                     //   child: Text('Добавить признак'),
                     // ),
+                    if (searchState.foundedMales != null)
+                      ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: Text(
+                                searchState.foundedMales![index].score
+                                    .toString(),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 4),
+                          itemCount: searchState.foundedMales!.length),
                     ElevatedButton(
-                      onPressed: searchState.mainAttribute == null
+                      onPressed: searchState.mainAttribute == null ||
+                              searchState.isloading
                           ? null
                           : () {
                               context.read<SearchCubit>().matchAnimal();
                             },
-                      child: Text('Начать поиск'),
+                      child: searchState.isloading
+                          ? CircularProgressIndicator()
+                          : Text('Начать поиск'),
                     ),
                   ],
                 ),

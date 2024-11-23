@@ -94,7 +94,7 @@ class API {
     throw Future.error(Exception("Not implemented"));
   }
 
-  static Future<List<CowApiResponse>> matchAnimal(int animalId) {
+  static Future<List<ReproductionResponse>> matchAnimal(int animalId) {
     return Backend.matchAnimal(animalId);
   }
 

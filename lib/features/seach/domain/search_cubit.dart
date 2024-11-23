@@ -20,11 +20,10 @@ class SearchCubit extends Cubit<SearchState> {
   void matchAnimal() async {
     if (state.female != null) {
       emit(state.copyWith(isloading: true));
-      final res =
-          passports.sublist(0, 6); // await API.matchAnimal(state.female!.id);
-      // emit(state.copyWith(
-      //     foundedMales: res.map<Passport>((e) => e.passport).toList()));
-      await Future.delayed(Duration(milliseconds: 700));
+      final res = await API.matchAnimal(state.female!.id);
+      print(res.length);
+      // emit(state.copyWith(foundedMales: res));
+      // await Future.delayed(Duration(milliseconds: 700));
       emit(state.copyWith(foundedMales: res, isloading: false));
     } else {}
   }
