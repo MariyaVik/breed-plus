@@ -43,7 +43,7 @@ class API {
   }
 
   static Future<void> loadXlsxPassport(List<int> bytes) {
-    final passports = [] as List<Passport>;
+    final List<Passport> passports = [];
     var excel = Excel.decodeBytes(bytes);
     for (var tableKey in excel.tables.keys) {
       final table = excel.tables[tableKey];
@@ -57,7 +57,7 @@ class API {
   }
 
   static Future<void> loadXlsxGenotypes(List<int> bytes) {
-    final genotypes = [] as List<Genotype>;
+    final List<Genotype> genotypes = [];
     var excel = Excel.decodeBytes(bytes);
     for (var tableKey in excel.tables.keys) {
       final table = excel.tables[tableKey];

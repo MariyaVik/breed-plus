@@ -29,7 +29,7 @@ void assertValue(dynamic expected, dynamic actual) {
 }
 
 List<String?> readTableRow(List<Data?> row) {
-  final result = [] as List<String?>;
+  final List<String?> result = [];
   for (var cell in row) {
     if (cell == null) {
       result.add(null);

@@ -63,6 +63,7 @@ class Backend {
 
   static Future<void> setCowMilk(
       int cowId, int recordDays, double amountOfMilk) async {
+    await getCow(cowId);
     final updatedMilk = amountOfMilk / recordDays;
     return Backend.database!.execute(
         "UPDATE passports SET milk = ? WHERE id = ?", [updatedMilk, cowId]);
@@ -92,19 +93,19 @@ class Backend {
             'health INTEGER NOT NULL,'
             'fertility INTEGER,'
             'worth INTEGER NOT NULL'
-            ')'
-            ''
+            ');'
+            ' '
             'CREATE TABLE genotypes ('
             'mutationId TEXT PRIMARY KEY,'
-            'chrom INTEGER,'
-            'pos TEXT,'
-            'ref TEXT,'
-            'alt TEXT,'
-            'attribute TEXT,'
-            'beta REAL,'
-            'genotype TEXT,'
-            'id INTEGER'
-            ')'
+            'chrom INTEGER NOT NULL,'
+            'pos TEXT NOT NULL,'
+            'ref TEXT NOT NULL,'
+            'alt TEXT NOT NULL,'
+            'attribute TEXT NOT NULL,'
+            'beta REAL NOT NULL,'
+            'genotype TEXT NOT NULL,'
+            'id INTEGER NOT NULL'
+            ');'
             '');
       },
     );

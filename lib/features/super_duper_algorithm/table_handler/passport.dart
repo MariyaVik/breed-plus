@@ -1,7 +1,7 @@
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:breed_plus/features/super_duper_algorithm/table_handler/common.dart';
 
-List<String?> readRowPassport(row, result) {
+void readRowPassport(row, result) {
   final rowData = readTableRow(row);
   // Assert assumptions
   if (row.length != 13) {
@@ -57,8 +57,7 @@ List<String?> readRowPassport(row, result) {
           : null,
       health: int.parse(rowData[10]!),
       fertility: rowData[11] != null ? int.parse(rowData[11]!) : null,
-      worth: int.parse(rowData[11]!),
+      worth: int.parse(rowData[12]!),
     ));
   }
-  return result;
 }
