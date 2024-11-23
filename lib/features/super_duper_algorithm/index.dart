@@ -27,8 +27,8 @@ class API {
   }
 
   static Future<List<Passport>> getMyAnimales() async {
-    return passports;
-    // return await Backend.getCows();
+    // return passports;
+    return await Backend.getCows();
   }
 
   static Future<CowApiResponse> getCow(int id) async {
