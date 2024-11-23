@@ -1,5 +1,6 @@
 import 'package:breed_plus/features/seach/domain/search_cubit.dart';
 import 'package:breed_plus/features/seach/domain/search_state.dart';
+import 'package:breed_plus/features/super_duper_algorithm/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,8 +51,11 @@ class SearchPage extends StatelessWidget {
                     //   child: Text('Добавить признак'),
                     // ),
                     ElevatedButton(
-                      onPressed:
-                          searchState.mainAttribute == null ? null : () {},
+                      onPressed: searchState.mainAttribute == null
+                          ? null
+                          : () {
+                              API.matchAnimal(searchState.female!.id);
+                            },
                       child: Text('Начать поиск'),
                     ),
                   ],
