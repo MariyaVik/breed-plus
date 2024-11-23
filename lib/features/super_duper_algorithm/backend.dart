@@ -1,3 +1,4 @@
+import 'package:breed_plus/features/super_duper_algorithm/genotype.dart';
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
@@ -17,6 +18,47 @@ class Backend {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
+  }
+
+  static Future<void> bulkInsertGenotypes(List<Genotype> genotypes) async {
+    if (Backend.database == null) {
+      return Future.error(Exception("База не задана"));
+    }
+    for (final genotype in genotypes) {
+      await Backend.database!.insert(
+        'genotypes',
+        genotype.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  }
+
+  static Future<Passport> getCow(int id) async {
+    if (Backend.database == null) {
+      return Future.error(Exception("База не задана"));
+    }
+    final rawCow = await Backend.database!
+        .query('passports', where: "id = ?", whereArgs: [id]);
+
+    if (rawCow.isEmpty) return Future.error(Exception("Коровка не найдена"));
+    return Passport.fromJson(rawCow.first);
+  }
+
+  static Future<List<Passport>> getCows(int id) async {
+    if (Backend.database == null) {
+      return Future.error(Exception("База не задана"));
+    }
+    final rawCow = await Backend.database!.query('passports');
+    return rawCow.map(Passport.fromJson).toList();
+  }
+
+  static Future<List<Genotype>> getCowGenotype(int id) async {
+    if (Backend.database == null) {
+      return Future.error(Exception("База не задана"));
+    }
+    final rawCow = await Backend.database!
+        .query('genetics', where: "id = ?", whereArgs: [id]);
+    return rawCow.map(Genotype.fromJson).toList();
   }
 
   static Future<void> init() async {
@@ -43,6 +85,18 @@ class Backend {
             'health INTEGER NOT NULL,'
             'fertility INTEGER,'
             'worth INTEGER NOT NULL'
+            ')'
+            ''
+            'CREATE TABLE genotypes ('
+            'mutationId TEXT PRIMARY KEY,'
+            'chrom INTEGER,'
+            'pos TEXT,'
+            'ref TEXT,'
+            'alt TEXT,'
+            'attribute TEXT,'
+            'beta REAL,'
+            'genotype TEXT,'
+            'id INTEGER'
             ')'
             '');
       },
