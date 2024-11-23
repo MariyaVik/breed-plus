@@ -45,10 +45,10 @@ class SearchPage extends StatelessWidget {
                     ChooseMainAttribute(),
                     // if (searchState.mainAttribute != null)
                     //   Text('Main attribute - ${searchState.mainAttribute}'),
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: Text('Добавить признак'),
-                    ),
+                    // OutlinedButton(
+                    //   onPressed: () {},
+                    //   child: Text('Добавить признак'),
+                    // ),
                     ElevatedButton(
                       onPressed:
                           searchState.mainAttribute == null ? null : () {},

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/mok.dart';
+import '../domain/profile_cubit.dart';
+import '../domain/profile_state.dart';
 import 'widgets/grid_column_widget.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -21,52 +23,57 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            GridColumnWidget(
-              count: 2,
-              children: List.generate(
-                passports.length,
-                (index) => Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 12,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          color: Colors.grey,
-                        ),
-                        Text(passports[index].id.toString()),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(passports[index].gender.toString()),
-                            Text(calculateAge(passports[index].bday)),
-                          ],
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            context
-                                .read<SearchCubit>()
-                                .selectFemale(passports[index]);
-                            context.read<AppCubit>().selectTab(0);
-                          },
-                          child: Text('Выбрать партнера'),
-                        ),
-                      ],
+      body: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return state.when(
+            initial: () => Center(child: Text('Загрузка данных')),
+            loading: () => Center(child: CircularProgressIndicator()),
+            loaded: (passports) => SingleChildScrollView(
+              child: GridColumnWidget(
+                count: 2,
+                children: List.generate(
+                  passports.length,
+                  (index) => Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 12,
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey,
+                          ),
+                          Text(passports[index].id.toString()),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(passports[index].gender.toString()),
+                              Text(calculateAge(passports[index].bday)),
+                            ],
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              context
+                                  .read<SearchCubit>()
+                                  .selectFemale(passports[index]);
+                              context.read<AppCubit>().selectTab(0);
+                            },
+                            child: Text('Выбрать партнера'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+            empty: () => Center(child: Text('Данные отсутствуют')),
+            error: (message) => Center(child: Text(message)),
+          );
+        },
       ),
     );
   }

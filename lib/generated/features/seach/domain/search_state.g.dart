@@ -14,7 +14,7 @@ _$SearchStateImpl _$$SearchStateImplFromJson(Map<String, dynamic> json) =>
       mainAttribute:
           $enumDecodeNullable(_$AttributeEnumMap, json['mainAttribute']),
       optionAttributes: (json['optionAttributes'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$AttributeEnumMap, e))
+          ?.map((e) => AttributeForApi.fromJson(e as Map<String, dynamic>))
           .toList(),
       foundedMales: (json['foundedMales'] as List<dynamic>?)
           ?.map((e) => Passport.fromJson(e as Map<String, dynamic>))
@@ -25,9 +25,7 @@ Map<String, dynamic> _$$SearchStateImplToJson(_$SearchStateImpl instance) =>
     <String, dynamic>{
       'female': instance.female,
       'mainAttribute': _$AttributeEnumMap[instance.mainAttribute],
-      'optionAttributes': instance.optionAttributes
-          ?.map((e) => _$AttributeEnumMap[e]!)
-          .toList(),
+      'optionAttributes': instance.optionAttributes,
       'foundedMales': instance.foundedMales,
     };
 

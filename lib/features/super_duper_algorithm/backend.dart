@@ -44,7 +44,7 @@ class Backend {
     return Passport.fromJson(rawCow.first);
   }
 
-  static Future<List<Passport>> getCows(int id) async {
+  static Future<List<Passport>> getCows() async {
     if (Backend.database == null) {
       return Future.error(Exception("База не задана"));
     }

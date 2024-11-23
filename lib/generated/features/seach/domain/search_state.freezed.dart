@@ -22,7 +22,8 @@ SearchState _$SearchStateFromJson(Map<String, dynamic> json) {
 mixin _$SearchState {
   Passport? get female => throw _privateConstructorUsedError;
   Attribute? get mainAttribute => throw _privateConstructorUsedError;
-  List<Attribute>? get optionAttributes => throw _privateConstructorUsedError;
+  List<AttributeForApi>? get optionAttributes =>
+      throw _privateConstructorUsedError;
   List<Passport>? get foundedMales => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $SearchStateCopyWith<$Res> {
   $Res call(
       {Passport? female,
       Attribute? mainAttribute,
-      List<Attribute>? optionAttributes,
+      List<AttributeForApi>? optionAttributes,
       List<Passport>? foundedMales});
 
   $PassportCopyWith<$Res>? get female;
@@ -76,7 +77,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
       optionAttributes: freezed == optionAttributes
           ? _value.optionAttributes
           : optionAttributes // ignore: cast_nullable_to_non_nullable
-              as List<Attribute>?,
+              as List<AttributeForApi>?,
       foundedMales: freezed == foundedMales
           ? _value.foundedMales
           : foundedMales // ignore: cast_nullable_to_non_nullable
@@ -108,7 +109,7 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   $Res call(
       {Passport? female,
       Attribute? mainAttribute,
-      List<Attribute>? optionAttributes,
+      List<AttributeForApi>? optionAttributes,
       List<Passport>? foundedMales});
 
   @override
@@ -143,7 +144,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
       optionAttributes: freezed == optionAttributes
           ? _value._optionAttributes
           : optionAttributes // ignore: cast_nullable_to_non_nullable
-              as List<Attribute>?,
+              as List<AttributeForApi>?,
       foundedMales: freezed == foundedMales
           ? _value._foundedMales
           : foundedMales // ignore: cast_nullable_to_non_nullable
@@ -158,7 +159,7 @@ class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {this.female,
       this.mainAttribute,
-      final List<Attribute>? optionAttributes,
+      final List<AttributeForApi>? optionAttributes,
       final List<Passport>? foundedMales})
       : _optionAttributes = optionAttributes,
         _foundedMales = foundedMales;
@@ -170,9 +171,9 @@ class _$SearchStateImpl implements _SearchState {
   final Passport? female;
   @override
   final Attribute? mainAttribute;
-  final List<Attribute>? _optionAttributes;
+  final List<AttributeForApi>? _optionAttributes;
   @override
-  List<Attribute>? get optionAttributes {
+  List<AttributeForApi>? get optionAttributes {
     final value = _optionAttributes;
     if (value == null) return null;
     if (_optionAttributes is EqualUnmodifiableListView)
@@ -237,7 +238,7 @@ abstract class _SearchState implements SearchState {
   const factory _SearchState(
       {final Passport? female,
       final Attribute? mainAttribute,
-      final List<Attribute>? optionAttributes,
+      final List<AttributeForApi>? optionAttributes,
       final List<Passport>? foundedMales}) = _$SearchStateImpl;
 
   factory _SearchState.fromJson(Map<String, dynamic> json) =
@@ -248,7 +249,7 @@ abstract class _SearchState implements SearchState {
   @override
   Attribute? get mainAttribute;
   @override
-  List<Attribute>? get optionAttributes;
+  List<AttributeForApi>? get optionAttributes;
   @override
   List<Passport>? get foundedMales;
   @override

@@ -17,6 +17,10 @@ class API {
     throw Future.error(Exception("Not implemented"));
   }
 
+  static Future<List<Passport>> getMyAnimales() async {
+    return await Backend.getCows();
+  }
+
   static Future<void> loadXlsxPassport(List<int> bytes) {
     final passports = [] as List<Passport>;
     var excel = Excel.decodeBytes(bytes);

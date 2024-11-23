@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../features/base/domain/app_cubit.dart';
+import '../features/profile/domain/profile_cubit.dart';
 import '../features/seach/domain/search_cubit.dart';
 import 'navigation/app_router.dart';
 import 'theme/app_theme.dart';
@@ -16,6 +17,9 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider<AppCubit>(create: (_) => AppCubit()),
         BlocProvider<SearchCubit>(create: (_) => SearchCubit()),
+        BlocProvider<ProfileCubit>(
+          create: (_) => ProfileCubit()..fetchPassports(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
