@@ -21,6 +21,7 @@ class Backend {
       );
     }
     await batch.commit();
+    print("Паспорта загружены");
   }
 
   static Future<void> bulkInsertGenotypes(List<Genotype> genotypes) async {
@@ -36,6 +37,7 @@ class Backend {
       );
     }
     await batch.commit();
+    print("Генотипы загружены");
   }
 
   static Future<Passport> getCow(int id) async {
@@ -62,7 +64,7 @@ class Backend {
       return Future.error(Exception("База не задана"));
     }
     final rawCow = await Backend.database!
-        .query('genetics', where: "id = ?", whereArgs: [cowId]);
+        .query('passports', where: "id = ?", whereArgs: [cowId]);
     return rawCow.map(Genotype.fromJson).toList();
   }
 
@@ -76,6 +78,8 @@ class Backend {
 
   static Future<List<CowApiResponse>> matchAnimal(int animalId) async {
     final animal = await getCow(animalId);
+    final test = await Backend.database!.rawQuery(
+        "SELECT *, (1) as test FROM passports p RIGHT JOIN genotypes g on g.id = p.id");
     final passports = await Backend.database!.query("passports",
         limit: 50,
         where: "gender != ?",
