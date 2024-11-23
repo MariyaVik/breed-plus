@@ -1,4 +1,5 @@
 import 'package:breed_plus/features/super_duper_algorithm/genotype.dart';
+import 'package:breed_plus/features/super_duper_algorithm/index.dart';
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
@@ -11,26 +12,30 @@ class Backend {
     if (Backend.database == null) {
       return Future.error(Exception("База не задана"));
     }
+    final batch = Backend.database!.batch();
     for (final passport in passports) {
-      await Backend.database!.insert(
+      batch.insert(
         'passports',
         passport.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
+    await batch.commit();
   }
 
   static Future<void> bulkInsertGenotypes(List<Genotype> genotypes) async {
     if (Backend.database == null) {
       return Future.error(Exception("База не задана"));
     }
+    final batch = Backend.database!.batch();
     for (final genotype in genotypes) {
-      await Backend.database!.insert(
+      batch.insert(
         'genotypes',
         genotype.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
+    await batch.commit();
   }
 
   static Future<Passport> getCow(int id) async {
@@ -67,6 +72,23 @@ class Backend {
     final updatedMilk = amountOfMilk / recordDays;
     return Backend.database!.execute(
         "UPDATE passports SET milk = ? WHERE id = ?", [updatedMilk, cowId]);
+  }
+
+  static Future<List<CowApiResponse>> matchAnimal(int animalId) async {
+    final animal = await getCow(animalId);
+    final passports = await Backend.database!.query("passports",
+        limit: 50,
+        where: "gender != ?",
+        whereArgs: [
+          animal.gender
+        ]).then(
+        (res) => res.map((passport) => Passport.fromJson(passport)).toList());
+    final List<CowApiResponse> result = [];
+    for (final passport in passports) {
+      final genotypes = await Backend.getCowGenotypes(passport.id);
+      result.add(CowApiResponse(passport: passport, genotypes: genotypes));
+    }
+    return result;
   }
 
   static Future<void> init() async {

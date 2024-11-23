@@ -27,7 +27,6 @@ class API {
   }
 
   static Future<List<Passport>> getMyAnimales() async {
-    // return passports;
     return await Backend.getCows();
   }
 
@@ -86,12 +85,8 @@ class API {
     throw Future.error(Exception("Not implemented"));
   }
 
-  static Future matchFemale() {
-    throw Future.error(Exception("Not implemented"));
-  }
-
-  static Future matchMale() {
-    throw Future.error(Exception("Not implemented"));
+  static Future matchAnimal(int animalId) {
+    return Backend.matchAnimal(animalId);
   }
 
   static Future matchAll() {
