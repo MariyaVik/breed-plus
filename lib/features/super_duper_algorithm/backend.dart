@@ -55,7 +55,7 @@ class Backend {
     if (Backend.database == null) {
       return Future.error(Exception("База не задана"));
     }
-    final rawCow = await Backend.database!.query('passports');
+    final rawCow = await Backend.database!.query('passports', limit: 2000);
     return rawCow.map<Passport>(Passport.fromJson).toList();
   }
 
