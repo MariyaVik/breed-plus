@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../base/domain/app_cubit.dart';
+import '../../super_duper_algorithm/attribute.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -41,22 +42,62 @@ class SearchPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('Выьираем партнера для ${searchState.female!.id}'),
-                    searchState.mainAttribute == null
-                        ? Column(
-                            children: [
-                              Text('Выберите признак'),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              Text(
-                                  'Main attribute - ${searchState.mainAttribute}'),
-                            ],
-                          ),
+                    ChooseMainAttribute(),
+                    // if (searchState.mainAttribute != null)
+                    //   Text('Main attribute - ${searchState.mainAttribute}'),
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: Text('Добавить признак'),
+                    ),
+                    ElevatedButton(
+                      onPressed:
+                          searchState.mainAttribute == null ? null : () {},
+                      child: Text('Начать поиск'),
+                    ),
                   ],
                 ),
               );
       }),
     );
+  }
+}
+
+class ChooseMainAttribute extends StatefulWidget {
+  const ChooseMainAttribute({
+    super.key,
+  });
+
+  @override
+  State<ChooseMainAttribute> createState() => _ChooseMainAttributeState();
+}
+
+class _ChooseMainAttributeState extends State<ChooseMainAttribute> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SearchCubit, SearchState>(
+        builder: (context, searchState) {
+      return Column(
+        children: [
+          Text('Выберите признак'),
+          Wrap(
+            children: List<Widget>.generate(
+              Attribute.values.length,
+              (int index) {
+                return ChoiceChip(
+                  label: Text(Attribute.values[index].name),
+                  selected:
+                      searchState.mainAttribute == Attribute.values[index],
+                  onSelected: (bool selected) {
+                    context
+                        .read<SearchCubit>()
+                        .selectMainAttribute(Attribute.values[index]);
+                  },
+                );
+              },
+            ).toList(),
+          ),
+        ],
+      );
+    });
   }
 }
