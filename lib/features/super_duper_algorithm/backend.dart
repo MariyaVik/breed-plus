@@ -49,7 +49,7 @@ class Backend {
       return Future.error(Exception("База не задана"));
     }
     final rawCow = await Backend.database!.query('passports');
-    return rawCow.map(Passport.fromJson).toList();
+    return rawCow.map<Passport>(Passport.fromJson).toList();
   }
 
   static Future<List<Genotype>> getCowGenotypes(int cowId) async {

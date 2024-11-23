@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:breed_plus/features/base/domain/app_cubit.dart';
 import 'package:breed_plus/features/seach/domain/search_cubit.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +14,66 @@ import 'widgets/grid_column_widget.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  // Модальное окно выбора действия
+  void _showAddOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.file_upload),
+                title: Text('Из файла'),
+                onTap: () {
+                  Navigator.pop(context); // Закрыть BottomSheet
+                  _pickFile(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.edit),
+                title: Text('Вручную'),
+                onTap: () {},
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Метод для выбора файла
+  void _pickFile(BuildContext context) async {
+    // Для выбора файла можно использовать пакет file_picker
+    // Добавьте в pubspec.yaml:
+    // dependencies:
+    //   file_picker: ^5.2.1
+
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx', 'xls'],
+    );
+    print(result?.files.single.bytes);
+
+    if (result != null && result.files.single.bytes != null) {
+      final fileBytes = result.files.single.bytes!;
+      await context
+          .read<ProfileCubit>()
+          .loadXlsxPassport(fileBytes); // Загрузка в Cubit
+    } else if (result != null && result.files.single.path != null) {
+      final filePath = result.files.single.path!;
+      final fileBytes = await File(filePath).readAsBytes();
+      await context.read<ProfileCubit>().loadXlsxPassport(fileBytes);
+      print('Файл прочитан вручную: ${fileBytes.length} байт');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Файл не выбран')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +81,9 @@ class ProfilePage extends StatelessWidget {
         title: Text('Моя ферма'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _showAddOptions(context);
+            },
             icon: const Icon(Icons.add),
           ),
         ],

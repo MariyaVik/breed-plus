@@ -25,6 +25,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> loadXlsxPassport(List<int> bytes) async {
     try {
       await API.loadXlsxPassport(bytes);
+      print('1111111');
       await fetchPassports(); // Перезагружаем список
     } catch (e) {
       emit(ProfileState.error('Ошибка загрузки файла: $e'));
