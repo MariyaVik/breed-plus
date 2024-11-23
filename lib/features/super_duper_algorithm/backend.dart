@@ -61,6 +61,13 @@ class Backend {
     return rawCow.map(Genotype.fromJson).toList();
   }
 
+  static Future<void> setCowMilk(
+      int cowId, int recordDays, double amountOfMilk) async {
+    final updatedMilk = amountOfMilk / recordDays;
+    return Backend.database!.execute(
+        "UPDATE passports SET milk = ? WHERE id = ?", [updatedMilk, cowId]);
+  }
+
   static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
     sqfliteFfiInit();
