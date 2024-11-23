@@ -76,23 +76,51 @@ class Backend {
         "UPDATE passports SET milk = ? WHERE id = ?", [updatedMilk, cowId]);
   }
 
-  static Future<List<CowApiResponse>> matchAnimal(int animalId) async {
+  static Future<List<ReproductionResponse>> matchAnimal(int animalId) async {
+    final milk = 0.6;
+    final weight = 0.4;
+    final health = 0.2;
+    final attributeMilkName = 'Удой л/день';
+    final attributeWeightName = 'Упитанность';
+    final attributeHealthName = 'Здоровье (1-10)';
+
     final animal = await getCow(animalId);
-    final test = await Backend.database!.rawQuery(
-        "SELECT *, (1) as test FROM passports p RIGHT JOIN genotypes g on g.id = p.id");
-    final passports = await Backend.database!.query("passports",
-        limit: 50,
-        where: "gender != ?",
-        whereArgs: [
-          animal.gender
-        ]).then(
-        (res) => res.map((passport) => Passport.fromJson(passport)).toList());
-    final List<CowApiResponse> result = [];
-    for (final passport in passports) {
-      final genotypes = await Backend.getCowGenotypes(passport.id);
-      result.add(CowApiResponse(passport: passport, genotypes: genotypes));
+    final animalGender = animal.gender;
+
+    final SNPcalculation = await Backend.database!.rawQuery(""
+        "SELECT id, SUM(SNP) as SNP"
+        " FROM "
+        " (SELECT *, "
+        " (beta * genotypeWeight * attributeWeight) as SNP"
+        " FROM"
+        " (SELECT *,"
+        " CAST(replace(replace(replace(genotypeMark, 'alt/alt', '1'), 'ref/alt', '0.5'), 'ref/ref', '0') as real) as genotypeWeight"
+        " FROM"
+        " (SELECT *,"
+        " replace(replace(g.genotype, g.alt, 'alt'), g.ref, 'ref') as genotypeMark,"
+        " CASE WHEN attribute = '$attributeMilkName' THEN $milk WHEN attribute = '$attributeWeightName' THEN $weight WHEN attribute = '$attributeHealthName' THEN $health ELSE 0 END as attributeWeight"
+        ' FROM passports p RIGHT JOIN genotypes g on g.id = p.id'
+        " WHERE p.gender != '$animalGender'"
+        "))) GROUP BY id ORDER BY SUM(SNP) DESC"
+        " LIMIT 50");
+
+    final List<ReproductionResponse> pretendents = [];
+    for (final pretendent in SNPcalculation) {
+      final id = pretendent['id'] as int;
+      final snp = pretendent['SNP'] as double;
+
+      print(id);
+      final passport = await Backend.getCow(id);
+      final genotypes = await Backend.getCowGenotypes(id);
+      final score = snp;
+
+      pretendents.add(ReproductionResponse(
+          passport: passport, genotypes: genotypes, score: score));
     }
-    return result;
+
+    print(pretendents);
+
+    return pretendents;
   }
 
   static Future<void> init() async {
@@ -124,7 +152,7 @@ class Backend {
             'CREATE TABLE genotypes ('
             'mutationId TEXT PRIMARY KEY,'
             'chrom INTEGER NOT NULL,'
-            'pos TEXT NOT NULL,'
+            'pos INTEGER NOT NULL,'
             'ref TEXT NOT NULL,'
             'alt TEXT NOT NULL,'
             'attribute TEXT NOT NULL,'

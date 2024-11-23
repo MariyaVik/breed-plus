@@ -17,6 +17,15 @@ class CowApiResponse {
   CowApiResponse({required this.passport, required this.genotypes});
 }
 
+class ReproductionResponse {
+  final Passport passport;
+  final List<Genotype> genotypes;
+  final double score;
+
+  ReproductionResponse(
+      {required this.passport, required this.genotypes, required this.score});
+}
+
 class API {
   static Future loadXlsPassport(List<int> bytes) {
     throw Future.error(Exception("Not implemented"));
