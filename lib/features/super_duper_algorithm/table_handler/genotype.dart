@@ -2,7 +2,7 @@ import 'package:breed_plus/features/super_duper_algorithm/genotype.dart';
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:breed_plus/features/super_duper_algorithm/table_handler/common.dart';
 
-List<String?> readRowGenotype(row, result) {
+void readRowGenotype(row, result) {
   final rowData = readTableRow(row);
   // Assert assumptions
   if (row.length != 9) {
@@ -40,5 +40,4 @@ List<String?> readRowGenotype(row, result) {
         genotype: rowData[7]!,
         id: int.parse(rowData[8]!)));
   }
-  return result;
 }
