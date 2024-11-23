@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/assets_name.dart';
+import '../../profile/ui/animal_details_screen.dart';
 import '../../profile/ui/profile_page.dart';
 import '../../seach/ui/search_page.dart';
 import '../data/models/bottom_item.dart';
@@ -20,9 +21,7 @@ class BaseScreen extends StatelessWidget {
     Container(
       color: Colors.green,
     ), // const SelectLocationPage(),
-    Container(
-      color: Colors.blue,
-    ),
+    AnimalDetailsScreen(),
   ];
 
   final List<BottomItem> bottomItems = [
