@@ -77,9 +77,28 @@ class Backend {
   }
 
   static Future<List<CowApiResponse>> matchAnimal(int animalId) async {
+    final milk = 0.6;
+    final weight = 0.4;
+    final health = 0.2;
+    final attributeMilkName = 'Удой л/день';
+    final attributeWeightName = 'Упитанность';
+    final attributeHealthName = 'Здоровье (1-10)';
     final animal = await getCow(animalId);
-    final test = await Backend.database!.rawQuery(
-        "SELECT *, (1) as test FROM passports p RIGHT JOIN genotypes g on g.id = p.id");
+    final test = await Backend.database!.rawQuery(""
+        "SELECT *"
+        " FROM"
+        " (SELECT *,"
+        " CAST(replace(replace(replace(genotypeMark, 'alt/alt', '1'), 'ref/alt', '0.5'), 'ref/ref', '0') as real) as genotypeWeight"
+        " FROM"
+        " (SELECT *,"
+        " replace(replace(g.genotype, g.alt, 'alt'), g.ref, 'ref') as genotypeMark,"
+        " CASE WHEN attribute = '$attributeMilkName' THEN $milk WHEN attribute = '$attributeWeightName' THEN $weight WHEN attribute = '$attributeHealthName' THEN $health ELSE 0 END as attributeWeight"
+        ' FROM passports p RIGHT JOIN genotypes g on g.id = p.id'
+        ' LIMIT 50'
+        "))");
+
+    final a = test[2];
+
     final passports = await Backend.database!.query("passports",
         limit: 50,
         where: "gender != ?",
