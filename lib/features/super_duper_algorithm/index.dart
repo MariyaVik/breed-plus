@@ -1,13 +1,15 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'dart:async';
+import 'package:breed_plus/features/super_duper_algorithm/backend.dart';
+import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import "package:excel/excel.dart";
 
-bool isNumeric(String? s) {
+bool isDouble(String? s) {
   if (s == null) {
     return false;
   }
-  return double.tryParse(s) != null;
+  return double.tryParse(s.replaceFirst(",", ".")) != null;
 }
 
 bool isUInt(String? s) {
@@ -66,7 +68,7 @@ String? getCellValue(Data cell) {
   }
 }
 
-List<String?> assertRow(row) {
+List<String?> assertRow(row, result) {
   final rowData = readTableRow(row);
   // Assert assumptions
   if (row.length != 13) {
@@ -91,58 +93,81 @@ List<String?> assertRow(row) {
     assertValue(["Самка", "Самец"].contains(rowData[1]), true);
     assertValue(rowData[2] != null, true);
     assertValue(isDateTime(rowData[3]), true);
-    //
-    assertValue(isNumeric(rowData[4]), true);
-    assertValue(isNumeric(rowData[5]), true);
-    assertValue(isNumeric(rowData[6]), true);
-    assertValue(isNumeric(rowData[7]), true);
-    assertValue(isNumeric(rowData[8]), true);
-    assertValue(isNumeric(rowData[9]), true);
-    assertValue(isNumeric(rowData[10]), true);
-    assertValue(isNumeric(rowData[11]), true);
-    assertValue(isNumeric(rowData[12]), true);
-    assertValue(isNumeric(rowData[13]), true);
+    assertValue(isUInt(rowData[4]), true);
+    assertValue(isUInt(rowData[5]), true);
+    assertValue(rowData[6] == null || isDouble(rowData[6]), true);
+    assertValue(rowData[7]?.length == 1 && isUInt(rowData[7]), true);
+    assertValue(isDouble(rowData[8]) && double.parse(rowData[8]!) <= 1, true);
+    assertValue(rowData[9] == null || isDouble(rowData[9]), true);
+    assertValue(
+        isUInt(rowData[10]) &&
+            int.parse(rowData[10]!) <= 10 &&
+            int.parse(rowData[10]!) >= 1,
+        true);
+    assertValue(rowData[11] == null || isUInt(rowData[11]), true);
+    assertValue(isUInt(rowData[12]) && int.parse(rowData[12]!) <= 100, true);
+
+    result.add(Passport(
+      id: int.parse(rowData[0]!),
+      gender: rowData[1] == "Самка" ? Gender.female : Gender.male,
+      breed: rowData[2]!,
+      bday: DateTime.parse(rowData[3]!),
+      father: int.parse(rowData[4]!),
+      mother: int.parse(rowData[5]!),
+      milk: rowData[6] != null
+          ? double.parse(rowData[6]!.replaceFirst(",", "."))
+          : null,
+      fatness: int.parse(rowData[7]!),
+      inbredding: double.parse(rowData[8]!.replaceFirst(",", ".")),
+      weightGain: rowData[9] != null
+          ? double.parse(rowData[9]!.replaceFirst(",", "."))
+          : null,
+      health: int.parse(rowData[10]!),
+      fertility: rowData[11] != null ? int.parse(rowData[11]!) : null,
+      worth: int.parse(rowData[11]!),
+    ));
   }
-  return rowData;
+  return result;
 }
 
 void packData() {}
 
 class API {
-  static Future loadXls(List<int> bytes) {
+  static Future loadXlsPassport(List<int> bytes) {
+    throw Future.error(Exception("Not implemented"));
+  }
+
+  static Future<void> loadXlsxPassport(List<int> bytes) {
+    final passports = [] as List<Passport>;
     var excel = Excel.decodeBytes(bytes);
     for (var tableKey in excel.tables.keys) {
       final table = excel.tables[tableKey];
       if (table == null) continue;
       for (var row in table.rows) {
-        final rowData = assertRow(row);
+        assertRow(row, passports);
       }
     }
 
-    throw Future.error(Error());
+    return Backend.bulkInsertPassports(passports);
   }
 
-  static Future loadXlsx() {
-    throw Future.error(Error());
+  static Future loadTSVPassport(List<int> bytes) {
+    throw Future.error(Exception("Not implemented"));
   }
 
-  static Future loadTSV() {
-    throw Future.error(Error());
-  }
-
-  static Future loadCFV() {
-    throw Future.error(Error());
+  static Future loadCFVPassport(List<int> bytes) {
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future matchFemale() {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future matchMale() {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 
   static Future matchAll() {
-    throw Future.error(Error());
+    throw Future.error(Exception("Not implemented"));
   }
 }

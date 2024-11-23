@@ -27,12 +27,12 @@ mixin _$Passport {
   int get father => throw _privateConstructorUsedError;
   int get mother => throw _privateConstructorUsedError;
   double? get milk => throw _privateConstructorUsedError;
-  int? get fatness => throw _privateConstructorUsedError;
-  double? get inbredding => throw _privateConstructorUsedError;
+  int get fatness => throw _privateConstructorUsedError;
+  double get inbredding => throw _privateConstructorUsedError;
   double? get weightGain => throw _privateConstructorUsedError;
-  int? get health => throw _privateConstructorUsedError;
+  int get health => throw _privateConstructorUsedError;
   int? get fertility => throw _privateConstructorUsedError;
-  int? get worth => throw _privateConstructorUsedError;
+  int get worth => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,12 +53,12 @@ abstract class $PassportCopyWith<$Res> {
       int father,
       int mother,
       double? milk,
-      int? fatness,
-      double? inbredding,
+      int fatness,
+      double inbredding,
       double? weightGain,
-      int? health,
+      int health,
       int? fertility,
-      int? worth});
+      int worth});
 }
 
 /// @nodoc
@@ -81,12 +81,12 @@ class _$PassportCopyWithImpl<$Res, $Val extends Passport>
     Object? father = null,
     Object? mother = null,
     Object? milk = freezed,
-    Object? fatness = freezed,
-    Object? inbredding = freezed,
+    Object? fatness = null,
+    Object? inbredding = null,
     Object? weightGain = freezed,
-    Object? health = freezed,
+    Object? health = null,
     Object? fertility = freezed,
-    Object? worth = freezed,
+    Object? worth = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -117,30 +117,30 @@ class _$PassportCopyWithImpl<$Res, $Val extends Passport>
           ? _value.milk
           : milk // ignore: cast_nullable_to_non_nullable
               as double?,
-      fatness: freezed == fatness
+      fatness: null == fatness
           ? _value.fatness
           : fatness // ignore: cast_nullable_to_non_nullable
-              as int?,
-      inbredding: freezed == inbredding
+              as int,
+      inbredding: null == inbredding
           ? _value.inbredding
           : inbredding // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       weightGain: freezed == weightGain
           ? _value.weightGain
           : weightGain // ignore: cast_nullable_to_non_nullable
               as double?,
-      health: freezed == health
+      health: null == health
           ? _value.health
           : health // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       fertility: freezed == fertility
           ? _value.fertility
           : fertility // ignore: cast_nullable_to_non_nullable
               as int?,
-      worth: freezed == worth
+      worth: null == worth
           ? _value.worth
           : worth // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ) as $Val);
   }
 }
@@ -161,12 +161,12 @@ abstract class _$$PassportImplCopyWith<$Res>
       int father,
       int mother,
       double? milk,
-      int? fatness,
-      double? inbredding,
+      int fatness,
+      double inbredding,
       double? weightGain,
-      int? health,
+      int health,
       int? fertility,
-      int? worth});
+      int worth});
 }
 
 /// @nodoc
@@ -187,12 +187,12 @@ class __$$PassportImplCopyWithImpl<$Res>
     Object? father = null,
     Object? mother = null,
     Object? milk = freezed,
-    Object? fatness = freezed,
-    Object? inbredding = freezed,
+    Object? fatness = null,
+    Object? inbredding = null,
     Object? weightGain = freezed,
-    Object? health = freezed,
+    Object? health = null,
     Object? fertility = freezed,
-    Object? worth = freezed,
+    Object? worth = null,
   }) {
     return _then(_$PassportImpl(
       id: null == id
@@ -223,30 +223,30 @@ class __$$PassportImplCopyWithImpl<$Res>
           ? _value.milk
           : milk // ignore: cast_nullable_to_non_nullable
               as double?,
-      fatness: freezed == fatness
+      fatness: null == fatness
           ? _value.fatness
           : fatness // ignore: cast_nullable_to_non_nullable
-              as int?,
-      inbredding: freezed == inbredding
+              as int,
+      inbredding: null == inbredding
           ? _value.inbredding
           : inbredding // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as double,
       weightGain: freezed == weightGain
           ? _value.weightGain
           : weightGain // ignore: cast_nullable_to_non_nullable
               as double?,
-      health: freezed == health
+      health: null == health
           ? _value.health
           : health // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       fertility: freezed == fertility
           ? _value.fertility
           : fertility // ignore: cast_nullable_to_non_nullable
               as int?,
-      worth: freezed == worth
+      worth: null == worth
           ? _value.worth
           : worth // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
     ));
   }
 }
@@ -262,12 +262,12 @@ class _$PassportImpl extends _Passport {
       required this.father,
       required this.mother,
       this.milk,
-      this.fatness,
-      this.inbredding,
+      required this.fatness,
+      required this.inbredding,
       this.weightGain,
-      this.health,
+      required this.health,
       this.fertility,
-      this.worth})
+      required this.worth})
       : super._();
 
   factory _$PassportImpl.fromJson(Map<String, dynamic> json) =>
@@ -289,17 +289,17 @@ class _$PassportImpl extends _Passport {
   @override
   final double? milk;
   @override
-  final int? fatness;
+  final int fatness;
   @override
-  final double? inbredding;
+  final double inbredding;
   @override
   final double? weightGain;
   @override
-  final int? health;
+  final int health;
   @override
   final int? fertility;
   @override
-  final int? worth;
+  final int worth;
 
   @override
   String toString() {
@@ -357,12 +357,12 @@ abstract class _Passport extends Passport {
       required final int father,
       required final int mother,
       final double? milk,
-      final int? fatness,
-      final double? inbredding,
+      required final int fatness,
+      required final double inbredding,
       final double? weightGain,
-      final int? health,
+      required final int health,
       final int? fertility,
-      final int? worth}) = _$PassportImpl;
+      required final int worth}) = _$PassportImpl;
   const _Passport._() : super._();
 
   factory _Passport.fromJson(Map<String, dynamic> json) =
@@ -383,17 +383,17 @@ abstract class _Passport extends Passport {
   @override
   double? get milk;
   @override
-  int? get fatness;
+  int get fatness;
   @override
-  double? get inbredding;
+  double get inbredding;
   @override
   double? get weightGain;
   @override
-  int? get health;
+  int get health;
   @override
   int? get fertility;
   @override
-  int? get worth;
+  int get worth;
   @override
   @JsonKey(ignore: true)
   _$$PassportImplCopyWith<_$PassportImpl> get copyWith =>
