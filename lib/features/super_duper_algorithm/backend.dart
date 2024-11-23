@@ -64,7 +64,7 @@ class Backend {
       return Future.error(Exception("База не задана"));
     }
     final rawCow = await Backend.database!
-        .query('passports', where: "id = ?", whereArgs: [cowId]);
+        .query('genotypes', where: "id = ?", whereArgs: [cowId]);
     return rawCow.map(Genotype.fromJson).toList();
   }
 
