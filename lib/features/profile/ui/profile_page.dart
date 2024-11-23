@@ -19,7 +19,7 @@ class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   // Модальное окно выбора действия
-  void _showAddOptions(BuildContext context) {
+  void _showAddOptions(BuildContext context, bool isGen) {
     showModalBottomSheet(
       context: context,
       builder: (_) {
@@ -33,7 +33,7 @@ class ProfilePage extends StatelessWidget {
                 title: Text('Из файла'),
                 onTap: () {
                   Navigator.pop(context); // Закрыть BottomSheet
-                  _pickFile(context);
+                  _pickFile(context, isGen);
                 },
               ),
               ListTile(
@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   // Метод для выбора файла
-  void _pickFile(BuildContext context) async {
+  void _pickFile(BuildContext context, bool isGen) async {
     // Для выбора файла можно использовать пакет file_picker
     // Добавьте в pubspec.yaml:
     // dependencies:
@@ -63,13 +63,17 @@ class ProfilePage extends StatelessWidget {
 
     if (result != null && result.files.single.bytes != null) {
       final fileBytes = result.files.single.bytes!;
-      await context
-          .read<ProfileCubit>()
-          .loadXlsxPassport(fileBytes); // Загрузка в Cubit
+      isGen
+          ? await context.read<ProfileCubit>().loadXlsxGenotypes(fileBytes)
+          : await context
+              .read<ProfileCubit>()
+              .loadXlsxPassport(fileBytes); // Загрузка в Cubit
     } else if (result != null && result.files.single.path != null) {
       final filePath = result.files.single.path!;
       final fileBytes = await File(filePath).readAsBytes();
-      await context.read<ProfileCubit>().loadXlsxPassport(fileBytes);
+      isGen
+          ? await context.read<ProfileCubit>().loadXlsxGenotypes(fileBytes)
+          : await context.read<ProfileCubit>().loadXlsxPassport(fileBytes);
       print('Файл прочитан вручную: ${fileBytes.length} байт');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +90,13 @@ class ProfilePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              _showAddOptions(context);
+              _showAddOptions(context, true);
+            },
+            icon: const Icon(Icons.grid_goldenratio),
+          ),
+          IconButton(
+            onPressed: () {
+              _showAddOptions(context, false);
             },
             icon: const Icon(Icons.add),
           ),

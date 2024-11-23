@@ -31,4 +31,14 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileState.error('Ошибка загрузки файла: $e'));
     }
   }
+
+  Future<void> loadXlsxGenotypes(List<int> bytes) async {
+    try {
+      await API.loadXlsxGenotypes(bytes);
+      print('2222222222');
+      // await fetchPassports(); // Перезагружаем список
+    } catch (e) {
+      emit(ProfileState.error('Ошибка загрузки файла: $e'));
+    }
+  }
 }
