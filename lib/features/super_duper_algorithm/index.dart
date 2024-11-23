@@ -8,6 +8,8 @@ import 'package:breed_plus/features/super_duper_algorithm/table_handler/genotype
 import 'package:breed_plus/features/super_duper_algorithm/table_handler/passport.dart';
 import "package:excel/excel.dart";
 
+import '../profile/data/mok.dart';
+
 class CowApiResponse {
   final Passport passport;
   final List<Genotype> genotypes;
@@ -25,7 +27,8 @@ class API {
   }
 
   static Future<List<Passport>> getMyAnimales() async {
-    return await Backend.getCows();
+    return passports;
+    // return await Backend.getCows();
   }
 
   static Future<CowApiResponse> getCow(int id) async {

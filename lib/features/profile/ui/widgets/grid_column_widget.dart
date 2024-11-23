@@ -27,6 +27,7 @@ class GridColumnWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: rows.map((row) {
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: row.map((widget) {
             return Expanded(child: widget);

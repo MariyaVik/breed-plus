@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:breed_plus/common/error_page.dart';
+import 'package:breed_plus/common/navigation/route_name.dart';
 import 'package:breed_plus/features/base/domain/app_cubit.dart';
 import 'package:breed_plus/features/seach/domain/search_cubit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../super_duper_algorithm/passport.dart';
 import '../data/mok.dart';
 import '../domain/profile_cubit.dart';
 import '../domain/profile_state.dart';
@@ -98,39 +102,8 @@ class ProfilePage extends StatelessWidget {
                 count: 2,
                 children: List.generate(
                   passports.length,
-                  (index) => Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 12,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            color: Colors.grey,
-                          ),
-                          Text(passports[index].id.toString()),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(passports[index].gender.toString()),
-                              Text(calculateAge(passports[index].bday)),
-                            ],
-                          ),
-                          OutlinedButton(
-                            onPressed: () {
-                              context
-                                  .read<SearchCubit>()
-                                  .selectFemale(passports[index]);
-                              context.read<AppCubit>().selectTab(0);
-                            },
-                            child: Text('Выбрать партнера'),
-                          ),
-                        ],
-                      ),
-                    ),
+                  (index) => MyAnimalCard(
+                    passport: passports[index],
                   ),
                 ),
               ),
@@ -163,4 +136,55 @@ String calculateAge(DateTime birthDate) {
   }
 
   return "$years л, $months м";
+}
+
+class MyAnimalCard extends StatelessWidget {
+  const MyAnimalCard({
+    super.key,
+    required this.passport,
+  });
+
+  final Passport passport;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        context.pushNamed(RouteName.details, extra: passport);
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 12,
+          ),
+          child: Column(
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                color: Colors.grey,
+              ),
+              Text(passport.id.toString()),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(passport.gender.toString()),
+                  Text(calculateAge(passport.bday)),
+                ],
+              ),
+              if (passport.gender == Gender.female)
+                OutlinedButton(
+                  onPressed: () {
+                    context.read<SearchCubit>().selectFemale(passport);
+                    context.read<AppCubit>().selectTab(0);
+                  },
+                  child: Text('Выбрать партнера'),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

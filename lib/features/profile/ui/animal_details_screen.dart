@@ -1,25 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../super_duper_algorithm/passport.dart';
 
 class AnimalDetailsScreen extends StatelessWidget {
-  AnimalDetailsScreen({super.key});
-
-  final passport = Passport(
-    id: 19,
-    gender: Gender.female,
-    breed: "Герефорд",
-    bday: DateTime.parse("2018-11-08"),
-    father: 1212,
-    mother: 7026,
-    milk: 27.25934223,
-    fatness: 4,
-    inbredding: 0.1,
-    weightGain: null,
-    health: 9,
-    fertility: 81,
-    worth: 92,
-  );
+  const AnimalDetailsScreen({
+    super.key,
+    required this.passport,
+  });
+  final Passport passport;
 
   Widget _buildDetailRow(String title, String value) {
     return Padding(
@@ -40,38 +29,57 @@ class AnimalDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader() {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.blueGrey.shade100,
-              child: Icon(
-                passport.gender == Gender.male ? Icons.male : Icons.female,
-                size: 40,
-                color: Colors.blueGrey.shade800,
+  Widget _buildProfileHeader(BuildContext context) {
+    return Stack(
+      children: [
+        Center(
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.blueGrey.shade100,
+                    child: Icon(
+                      passport.gender == Gender.male
+                          ? Icons.male
+                          : Icons.female,
+                      size: 40,
+                      color: Colors.blueGrey.shade800,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'ID: ${passport.id}',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    passport.breed,
+                    style: const TextStyle(
+                        fontSize: 16, fontStyle: FontStyle.italic),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              'ID: ${passport.id}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              passport.breed,
-              style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-            ),
-          ],
+          ),
         ),
-      ),
+        Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  context.pop();
+                },
+                icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+          ],
+        )
+      ],
     );
   }
 
@@ -117,7 +125,7 @@ class AnimalDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildProfileHeader(),
+            _buildProfileHeader(context),
             const SizedBox(height: 16),
             _buildProfileDetails(),
           ],
