@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/assets_name.dart';
 import '../../profile/ui/profile_page.dart';
+import '../../seach/ui/search_page.dart';
 import '../data/models/bottom_item.dart';
 import '../domain/app_cubit.dart';
 import '../domain/app_state.dart';
@@ -11,9 +12,7 @@ import '../domain/app_state.dart';
 class BaseScreen extends StatelessWidget {
   BaseScreen({super.key});
   final List<Widget> pages = [
-    Container(
-      color: Colors.pink,
-    ), //const WeatherPage(),
+    const SearchPage(),
     Container(
       color: Colors.amberAccent,
     ), // const NewsPage(),

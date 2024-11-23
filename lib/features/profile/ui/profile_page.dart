@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../data/mok.dart';
+import 'widgets/grid_column_widget.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -20,9 +23,9 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GridColumnWidget(
-              count: 3,
+              count: 2,
               children: List.generate(
-                5,
+                passports.length,
                 (index) => Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -36,12 +39,12 @@ class ProfilePage extends StatelessWidget {
                           height: 100,
                           color: Colors.grey,
                         ),
-                        Text('ИМЯ'),
+                        Text(passports[index].id.toString()),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text('пол'),
-                            Text('возраст'),
+                            Text(passports[index].gender.toString()),
+                            Text(calculateAge(passports[index].bday)),
                           ],
                         ),
                       ],
@@ -57,41 +60,23 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class GridColumnWidget extends StatelessWidget {
-  final int count;
-  final List<Widget> children;
+String calculateAge(DateTime birthDate) {
+  final DateTime today = DateTime.now();
 
-  const GridColumnWidget({
-    Key? key,
-    required this.count,
-    required this.children,
-  }) : super(key: key);
+  int years = today.year - birthDate.year;
+  int months = today.month - birthDate.month;
+  int days = today.day - birthDate.day;
 
-  @override
-  Widget build(BuildContext context) {
-    // Разбиваем список виджетов на строки
-    List<List<Widget>> rows = [];
-    for (int i = 0; i < children.length; i += count) {
-      rows.add(children.sublist(
-        i,
-        i + count > children.length ? children.length : i + count,
-      ));
-    }
-    if (rows.isNotEmpty && rows.last.length < count) {
-      int remainingSpaces = count - rows.last.length;
-      rows.last.addAll(List.generate(remainingSpaces, (_) => const Spacer()));
-    }
-    // Создаём строки виджетов
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: rows.map((row) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: row.map((widget) {
-            return Expanded(child: widget);
-          }).toList(),
-        );
-      }).toList(),
-    );
+  // Корректировка, если текущая дата раньше месяца или дня рождения
+  if (months < 0 || (months == 0 && days < 0)) {
+    years--;
+    months += 12;
   }
+  if (days < 0) {
+    final previousMonth = DateTime(today.year, today.month - 1, birthDate.day);
+    days = today.difference(previousMonth).inDays;
+    months--;
+  }
+
+  return "$years л, $months м";
 }
