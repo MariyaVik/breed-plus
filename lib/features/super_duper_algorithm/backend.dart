@@ -85,7 +85,10 @@ class Backend {
     final attributeHealthName = 'Здоровье (1-10)';
     final animal = await getCow(animalId);
     final test = await Backend.database!.rawQuery(""
-        "SELECT *"
+        "SELECT id, SUM(SNP) as SNP"
+        " FROM "
+        " (SELECT *, "
+        " (beta * genotypeWeight * attributeWeight) as SNP"
         " FROM"
         " (SELECT *,"
         " CAST(replace(replace(replace(genotypeMark, 'alt/alt', '1'), 'ref/alt', '0.5'), 'ref/ref', '0') as real) as genotypeWeight"
@@ -94,10 +97,8 @@ class Backend {
         " replace(replace(g.genotype, g.alt, 'alt'), g.ref, 'ref') as genotypeMark,"
         " CASE WHEN attribute = '$attributeMilkName' THEN $milk WHEN attribute = '$attributeWeightName' THEN $weight WHEN attribute = '$attributeHealthName' THEN $health ELSE 0 END as attributeWeight"
         ' FROM passports p RIGHT JOIN genotypes g on g.id = p.id'
-        ' LIMIT 50'
-        "))");
-
-    final a = test[2];
+        "))) GROUP BY id ORDER BY SUM(SNP) DESC"
+        " LIMIT 50");
 
     final passports = await Backend.database!.query("passports",
         limit: 50,
