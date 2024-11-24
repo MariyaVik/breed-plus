@@ -10,7 +10,8 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(const SearchState());
 
   void selectFemale(Passport passport) {
-    emit(state.copyWith(female: passport));
+    resetMainAttribute();
+    emit(state.copyWith(female: passport, foundedMales: null));
   }
 
   void selectMainAttribute(Attribute mainAttribute) {
