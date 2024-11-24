@@ -15,6 +15,8 @@ import '../domain/profile_cubit.dart';
 import '../domain/profile_state.dart';
 import 'widgets/grid_column_widget.dart';
 
+enum AddingType { passport, genotype }
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -39,7 +41,12 @@ class ProfilePage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.edit),
                 title: Text('Вручную'),
-                onTap: () {context.pop(); isGen ? context.pushNamed(RouteName.addGenotype) : context.pushNamed(RouteName.addPassport);},
+                onTap: () {
+                  context.pop();
+                  isGen
+                      ? context.pushNamed(RouteName.addGenotype)
+                      : context.pushNamed(RouteName.addPassport);
+                },
               ),
             ],
           ),
@@ -48,18 +55,11 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  // Метод для выбора файла
   void _pickFile(BuildContext context, bool isGen) async {
-    // Для выбора файла можно использовать пакет file_picker
-    // Добавьте в pubspec.yaml:
-    // dependencies:
-    //   file_picker: ^5.2.1
-
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['xlsx', 'xls'],
     );
-    print(result?.files.single.bytes);
 
     if (result != null && result.files.single.bytes != null) {
       final fileBytes = result.files.single.bytes!;
@@ -88,16 +88,24 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Моя ферма'),
         actions: [
-          IconButton(
-            onPressed: () {
-              _showAddOptions(context, true);
+          PopupMenuButton<AddingType>(
+            onSelected: (value) {
+              if (value == AddingType.passport) {
+                _showAddOptions(context, false);
+              } else if (value == AddingType.genotype) {
+                _showAddOptions(context, true);
+              }
             },
-            icon: const Icon(Icons.grid_goldenratio),
-          ),
-          IconButton(
-            onPressed: () {
-              _showAddOptions(context, false);
-            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<AddingType>>[
+              const PopupMenuItem<AddingType>(
+                value: AddingType.passport,
+                child: Text('Паспорта'),
+              ),
+              const PopupMenuItem<AddingType>(
+                value: AddingType.genotype,
+                child: Text('Мутации'),
+              ),
+            ],
             icon: const Icon(Icons.add),
           ),
         ],
@@ -134,7 +142,6 @@ String calculateAge(DateTime birthDate) {
   int months = today.month - birthDate.month;
   int days = today.day - birthDate.day;
 
-  // Корректировка, если текущая дата раньше месяца или дня рождения
   if (months < 0 || (months == 0 && days < 0)) {
     years--;
     months += 12;
@@ -144,8 +151,8 @@ String calculateAge(DateTime birthDate) {
     days = today.difference(previousMonth).inDays;
     months--;
   }
-
-  return "$years л, $months м";
+  final yearName = getWordOrg(years, 'г', 'г', 'л');
+  return "$years$yearName $monthsм";
 }
 
 class MyAnimalCard extends StatelessWidget {
@@ -174,27 +181,48 @@ class MyAnimalCard extends StatelessWidget {
                 width: 100,
                 height: 100,
                 color: Colors.grey,
+                child: Image.asset(
+                  passport.gender == Gender.female
+                      ? 'assets/images/female.png'
+                      : 'assets/images/male.jpg',
+                  fit: BoxFit.cover,
+                ),
               ),
-              Text(passport.id.toString()),
+              Text('ID ${passport.id}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(passport.gender.toString()),
+                  Text(passport.gender.name),
                   Text(calculateAge(passport.bday)),
                 ],
               ),
-              if (passport.gender == Gender.female)
-                OutlinedButton(
-                  onPressed: () {
-                    context.read<SearchCubit>().selectFemale(passport);
-                    context.read<AppCubit>().selectTab(0);
-                  },
-                  child: Text('Выбрать партнера'),
-                ),
+              // if (passport.gender == Gender.female)
+              OutlinedButton(
+                onPressed: () {
+                  context.read<SearchCubit>().selectFemale(passport);
+                  context.read<AppCubit>().selectTab(0);
+                },
+                child: Text('Выбрать пару'),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+String getWordOrg(int num, String one, String two, String five) {
+  num %= 100;
+  if (num >= 5 && num <= 20) {
+    return five;
+  }
+  num %= 10;
+  if (num == 1) {
+    return one;
+  }
+  if (num >= 2 && num <= 4) {
+    return two;
+  }
+  return five;
 }

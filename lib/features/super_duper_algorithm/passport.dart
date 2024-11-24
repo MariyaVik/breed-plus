@@ -30,6 +30,9 @@ class Passport with _$Passport {
 }
 
 enum Gender {
-  male,
-  female,
+  male('Самец'),
+  female('Самка');
+
+  final String name;
+  const Gender(this.name);
 }
