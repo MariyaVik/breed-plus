@@ -4,4 +4,5 @@ abstract class RouteName {
   static const String details = 'details';
   static const String addPassport = 'addPassport';
   static const String addGenotype = 'addGenotype';
+  static const String result = 'result';
 }

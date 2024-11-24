@@ -6,6 +6,8 @@ import '../../features/base/ui/base_screen.dart';
 import '../../features/login/ui/login_screen.dart';
 import '../../features/profile/ui/add_passport_screen.dart';
 import '../../features/profile/ui/animal_details_screen.dart';
+import '../../features/seach/ui/result_screen.dart';
+import '../../features/super_duper_algorithm/index.dart';
 import '../../features/super_duper_algorithm/passport.dart';
 import '../error_page.dart';
 import 'route_name.dart';
@@ -44,6 +46,14 @@ class AppRouter {
             name: RouteName.addGenotype,
             path: '/${RouteName.addGenotype}',
             builder: (context, state) => const AddGenotypeScreen(),
+          ),
+          GoRoute(
+            name: RouteName.result,
+            path: '/${RouteName.result}',
+            builder: (context, state) => ResultScreen(
+              // костыль
+              info: state.extra as List<dynamic>,
+            ),
           ),
         ],
       ),

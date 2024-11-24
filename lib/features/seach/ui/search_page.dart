@@ -1,7 +1,9 @@
+import 'package:breed_plus/common/navigation/route_name.dart';
 import 'package:breed_plus/features/seach/domain/search_cubit.dart';
 import 'package:breed_plus/features/seach/domain/search_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../base/domain/app_cubit.dart';
 import '../../profile/ui/profile_page.dart';
@@ -84,27 +86,39 @@ class SearchPage extends StatelessWidget {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                            'ID партнера ${searchState.foundedMales![index].passport.id}'),
-                                      ],
-                                    ),
-                                    Text(
-                                      searchState.foundedMales![index].score
-                                          .toStringAsFixed(2),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
+                            return InkWell(
+                              borderRadius: BorderRadius.circular(10),
+                              onTap: () {
+                                context.pushNamed(
+                                  RouteName.result,
+                                  extra: [
+                                    searchState.female,
+                                    searchState.foundedMales![index]
                                   ],
+                                );
+                              },
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                              'ID партнера ${searchState.foundedMales![index].passport.id}'),
+                                        ],
+                                      ),
+                                      Text(
+                                        searchState.foundedMales![index].score
+                                            .toStringAsFixed(2),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
