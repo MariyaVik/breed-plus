@@ -168,6 +168,7 @@ class MyAnimalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(10),
       onTap: () {
         context.pushNamed(RouteName.details, extra: passport);
       },
@@ -179,17 +180,7 @@ class MyAnimalCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Container(
-                width: 100,
-                height: 100,
-                color: Colors.grey,
-                child: Image.asset(
-                  passport.gender == Gender.female
-                      ? 'assets/images/female.png'
-                      : 'assets/images/male.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
+              AnimalPhoto(passport: passport),
               Text('ID ${passport.id}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -203,13 +194,41 @@ class MyAnimalCard extends StatelessWidget {
                 OutlinedButton(
                   onPressed: () {
                     context.read<SearchCubit>().selectFemale(passport);
-                    context.read<AppCubit>().selectTab(0);
+                    context.read<AppCubit>().selectTab(1);
                   },
                   child: Text('Выбрать пару'),
                 ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AnimalPhoto extends StatelessWidget {
+  const AnimalPhoto({
+    super.key,
+    required this.passport,
+  });
+
+  final Passport passport;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey,
+      ),
+      width: 100,
+      height: 100,
+      child: Image.asset(
+        passport.gender == Gender.female
+            ? 'assets/images/female.png'
+            : 'assets/images/male.jpg',
+        fit: BoxFit.cover,
       ),
     );
   }

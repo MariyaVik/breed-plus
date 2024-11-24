@@ -38,7 +38,7 @@ class SearchPage extends StatelessWidget {
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: () {
-                        context.read<AppCubit>().selectTab(2);
+                        context.read<AppCubit>().selectTab(0);
                       },
                       child: const Text('Перейти к выбору'),
                     ),
@@ -102,7 +102,9 @@ class SearchPage extends StatelessWidget {
                             },
                       child: searchState.isloading
                           ? CircularProgressIndicator()
-                          : Text('Начать поиск'),
+                          : Text(searchState.foundedMales != null
+                              ? 'Новый поиск'
+                              : 'Начать поиск'),
                     ),
                     if (searchState.foundedMales != null)
                       ListView.separated(
@@ -110,9 +112,27 @@ class SearchPage extends StatelessWidget {
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Card(
-                              child: Text(
-                                searchState.foundedMales![index].score
-                                    .toString(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                            'ID ${searchState.foundedMales![index].passport.id}'),
+                                      ],
+                                    ),
+                                    Text(
+                                      searchState.foundedMales![index].score
+                                          .toStringAsFixed(2),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
