@@ -1,6 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'dart:async';
+import 'package:breed_plus/features/super_duper_algorithm/attribute.dart';
 import 'package:breed_plus/features/super_duper_algorithm/backend.dart';
 import 'package:breed_plus/features/super_duper_algorithm/genotype.dart';
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
@@ -103,12 +104,23 @@ class API {
     throw Future.error(Exception("Not implemented"));
   }
 
-  static Future<List<ReproductionResponse>> matchAnimal(int animalId) {
-    return Backend.matchAnimal(animalId, {
-      'Удой л/день': 0.6,
-      'Упитанность': 0.4,
-      'Здоровье (1-10)': 0.2,
-    });
+  static Future<List<ReproductionResponse>> matchAnimal(
+      int animalId, List<Attribute> attributes) {
+    double k = 1;
+    Map<String, double> options = {};
+    for (var a in attributes) {
+      options[a.tableName] = k;
+      k = k - 0.2;
+    }
+    print(options);
+    return Backend.matchAnimal(
+      animalId, options,
+      // {
+      //   'Удой л/день': 0.6,
+      //   'Упитанность': 0.4,
+      //   'Здоровье (1-10)': 0.2,
+      // },
+    );
   }
 
   static Future matchAll() {

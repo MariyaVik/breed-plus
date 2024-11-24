@@ -22,7 +22,10 @@ class SearchCubit extends Cubit<SearchState> {
   void matchAnimal() async {
     if (state.female != null) {
       emit(state.copyWith(isloading: true));
-      final res = await API.matchAnimal(state.female!.id);
+      final res = await API.matchAnimal(
+        state.female!.id,
+        state.mainAttributes ?? [Attribute.milk],
+      );
       print(res.length);
       // emit(state.copyWith(foundedMales: res));
       // await Future.delayed(Duration(milliseconds: 700));
