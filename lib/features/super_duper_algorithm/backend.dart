@@ -101,8 +101,8 @@ class Backend {
                 "null"))
         .toList();
 
-    final animalGender = animal.gender;
-    final isTargetFemale = animalGender == Gender.female ? 1 : 0;
+    final animalGender = animal.gender == Gender.female ? "female" : "male";
+    final isTargetFemale = animal.gender == Gender.female ? 1 : 0;
 
     final SNPcalculation = await Backend.database!.rawQuery(""
         "SELECT id, SUM(SNPContribution) as SNP"
