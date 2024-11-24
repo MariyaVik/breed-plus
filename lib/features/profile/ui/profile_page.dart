@@ -30,6 +30,8 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text('Загрузка ${isGen ? "мутаций" : "паспортов"}'),
+              Divider(),
               ListTile(
                 leading: Icon(Icons.file_upload),
                 title: Text('Из файла'),
