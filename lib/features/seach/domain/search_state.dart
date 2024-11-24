@@ -12,7 +12,7 @@ part '../../../generated/features/seach/domain/search_state.freezed.dart';
 class SearchState with _$SearchState {
   const factory SearchState({
     Passport? female,
-    Attribute? mainAttribute,
+    List<Attribute>? mainAttributes,
     List<AttributeForApi>? optionAttributes,
     List<ReproductionResponse>? foundedMales,
     @Default(false) bool isloading,

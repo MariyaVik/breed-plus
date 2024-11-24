@@ -53,13 +53,13 @@ class BaseScreen extends StatelessWidget {
         // ),
         body: pages[appState.selectedTab],
         bottomNavigationBar: SizedBox(
-          height: isTablet ? 80.0 : 56.0,
+          height: isTablet ? 80.0 : 58.0,
           child: BottomNavigationBar(
             showSelectedLabels: false, showUnselectedLabels: false,
             // type: BottomNavigationBarType.fixed,
-            iconSize: isTablet ? 36.0 : 24.0,
-            selectedFontSize: isTablet ? 16.0 : 14.0,
-            unselectedFontSize: isTablet ? 16.0 : 12.0,
+            iconSize: isTablet ? 36.0 : 22.0,
+            // selectedFontSize: isTablet ? 16.0 : 14.0,
+            // unselectedFontSize: isTablet ? 16.0 : 12.0,
             currentIndex: appState.selectedTab,
             onTap: (value) {
               context.read<AppCubit>().selectTab(value);

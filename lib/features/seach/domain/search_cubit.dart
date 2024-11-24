@@ -14,8 +14,9 @@ class SearchCubit extends Cubit<SearchState> {
     emit(state.copyWith(female: passport, foundedMales: null));
   }
 
-  void selectMainAttribute(Attribute mainAttribute) {
-    emit(state.copyWith(mainAttribute: mainAttribute));
+  void selectMainAttribute(List<Attribute> mainAttribute) {
+    print('in state $mainAttribute');
+    emit(state.copyWith(mainAttributes: mainAttribute));
   }
 
   void matchAnimal() async {
@@ -34,7 +35,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void resetMainAttribute() {
-    emit(state.copyWith(mainAttribute: null));
+    emit(state.copyWith(mainAttributes: null));
   }
 
   void resetOptionAttributes() {

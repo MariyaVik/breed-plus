@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SearchState {
   Passport? get female => throw _privateConstructorUsedError;
-  Attribute? get mainAttribute => throw _privateConstructorUsedError;
+  List<Attribute>? get mainAttributes => throw _privateConstructorUsedError;
   List<AttributeForApi>? get optionAttributes =>
       throw _privateConstructorUsedError;
   List<ReproductionResponse>? get foundedMales =>
@@ -39,7 +39,7 @@ abstract class $SearchStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Passport? female,
-      Attribute? mainAttribute,
+      List<Attribute>? mainAttributes,
       List<AttributeForApi>? optionAttributes,
       List<ReproductionResponse>? foundedMales,
       bool isloading});
@@ -63,7 +63,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   @override
   $Res call({
     Object? female = freezed,
-    Object? mainAttribute = freezed,
+    Object? mainAttributes = freezed,
     Object? optionAttributes = freezed,
     Object? foundedMales = freezed,
     Object? isloading = null,
@@ -73,10 +73,10 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.female
           : female // ignore: cast_nullable_to_non_nullable
               as Passport?,
-      mainAttribute: freezed == mainAttribute
-          ? _value.mainAttribute
-          : mainAttribute // ignore: cast_nullable_to_non_nullable
-              as Attribute?,
+      mainAttributes: freezed == mainAttributes
+          ? _value.mainAttributes
+          : mainAttributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute>?,
       optionAttributes: freezed == optionAttributes
           ? _value.optionAttributes
           : optionAttributes // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {Passport? female,
-      Attribute? mainAttribute,
+      List<Attribute>? mainAttributes,
       List<AttributeForApi>? optionAttributes,
       List<ReproductionResponse>? foundedMales,
       bool isloading});
@@ -140,7 +140,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? female = freezed,
-    Object? mainAttribute = freezed,
+    Object? mainAttributes = freezed,
     Object? optionAttributes = freezed,
     Object? foundedMales = freezed,
     Object? isloading = null,
@@ -150,10 +150,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value.female
           : female // ignore: cast_nullable_to_non_nullable
               as Passport?,
-      mainAttribute: freezed == mainAttribute
-          ? _value.mainAttribute
-          : mainAttribute // ignore: cast_nullable_to_non_nullable
-              as Attribute?,
+      mainAttributes: freezed == mainAttributes
+          ? _value._mainAttributes
+          : mainAttributes // ignore: cast_nullable_to_non_nullable
+              as List<Attribute>?,
       optionAttributes: freezed == optionAttributes
           ? _value._optionAttributes
           : optionAttributes // ignore: cast_nullable_to_non_nullable
@@ -175,17 +175,26 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {this.female,
-      this.mainAttribute,
+      final List<Attribute>? mainAttributes,
       final List<AttributeForApi>? optionAttributes,
       final List<ReproductionResponse>? foundedMales,
       this.isloading = false})
-      : _optionAttributes = optionAttributes,
+      : _mainAttributes = mainAttributes,
+        _optionAttributes = optionAttributes,
         _foundedMales = foundedMales;
 
   @override
   final Passport? female;
+  final List<Attribute>? _mainAttributes;
   @override
-  final Attribute? mainAttribute;
+  List<Attribute>? get mainAttributes {
+    final value = _mainAttributes;
+    if (value == null) return null;
+    if (_mainAttributes is EqualUnmodifiableListView) return _mainAttributes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<AttributeForApi>? _optionAttributes;
   @override
   List<AttributeForApi>? get optionAttributes {
@@ -213,7 +222,7 @@ class _$SearchStateImpl implements _SearchState {
 
   @override
   String toString() {
-    return 'SearchState(female: $female, mainAttribute: $mainAttribute, optionAttributes: $optionAttributes, foundedMales: $foundedMales, isloading: $isloading)';
+    return 'SearchState(female: $female, mainAttributes: $mainAttributes, optionAttributes: $optionAttributes, foundedMales: $foundedMales, isloading: $isloading)';
   }
 
   @override
@@ -222,8 +231,8 @@ class _$SearchStateImpl implements _SearchState {
         (other.runtimeType == runtimeType &&
             other is _$SearchStateImpl &&
             (identical(other.female, female) || other.female == female) &&
-            (identical(other.mainAttribute, mainAttribute) ||
-                other.mainAttribute == mainAttribute) &&
+            const DeepCollectionEquality()
+                .equals(other._mainAttributes, _mainAttributes) &&
             const DeepCollectionEquality()
                 .equals(other._optionAttributes, _optionAttributes) &&
             const DeepCollectionEquality()
@@ -236,7 +245,7 @@ class _$SearchStateImpl implements _SearchState {
   int get hashCode => Object.hash(
       runtimeType,
       female,
-      mainAttribute,
+      const DeepCollectionEquality().hash(_mainAttributes),
       const DeepCollectionEquality().hash(_optionAttributes),
       const DeepCollectionEquality().hash(_foundedMales),
       isloading);
@@ -253,7 +262,7 @@ class _$SearchStateImpl implements _SearchState {
 abstract class _SearchState implements SearchState {
   const factory _SearchState(
       {final Passport? female,
-      final Attribute? mainAttribute,
+      final List<Attribute>? mainAttributes,
       final List<AttributeForApi>? optionAttributes,
       final List<ReproductionResponse>? foundedMales,
       final bool isloading}) = _$SearchStateImpl;
@@ -261,7 +270,7 @@ abstract class _SearchState implements SearchState {
   @override
   Passport? get female;
   @override
-  Attribute? get mainAttribute;
+  List<Attribute>? get mainAttributes;
   @override
   List<AttributeForApi>? get optionAttributes;
   @override

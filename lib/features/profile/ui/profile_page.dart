@@ -180,15 +180,52 @@ class MyAnimalCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              AnimalPhoto(passport: passport),
-              Text('ID ${passport.id}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(passport.gender.name),
-                  Text(calculateAge(passport.bday)),
+                  AnimalPhoto(passport: passport),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('ID '),
+                          Text(
+                            passport.id.toString(),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                      Text(calculateAge(passport.bday)),
+                    ],
+                  ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Column(
+                  children: [
+                    if (passport.gender == Gender.female)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Удой'),
+                          Text(
+                              passport.milk?.toStringAsFixed(2) ?? 'Не указан'),
+                        ],
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Упитанность'),
+                        Text(passport.fatness.toString()),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
               // if (passport.gender == Gender.female)
               if (buttonShow)
                 OutlinedButton(
@@ -220,15 +257,14 @@ class AnimalPhoto extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.grey,
+        // color: Colors.grey,
       ),
-      width: 100,
-      height: 100,
-      child: Image.asset(
-        passport.gender == Gender.female
-            ? 'assets/images/female.png'
-            : 'assets/images/male.jpg',
-        fit: BoxFit.cover,
+      width: 50,
+      height: 50,
+      child: Icon(
+        passport.gender == Gender.male ? Icons.male : Icons.female,
+        size: 40,
+        color: Colors.blueGrey.shade800,
       ),
     );
   }

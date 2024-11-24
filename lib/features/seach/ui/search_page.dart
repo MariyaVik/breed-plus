@@ -1,6 +1,5 @@
 import 'package:breed_plus/features/seach/domain/search_cubit.dart';
 import 'package:breed_plus/features/seach/domain/search_state.dart';
-import 'package:breed_plus/features/super_duper_algorithm/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +26,8 @@ class SearchPage extends StatelessWidget {
       ),
       body: BlocBuilder<SearchCubit, SearchState>(
           builder: (context, searchState) {
+        print('555555');
+        print(searchState.mainAttributes);
         return searchState.female == null
             ? Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -63,38 +64,10 @@ class SearchPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Card(
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.all(12),
-                    //     child: Row(
-                    //       children: [
-                    //         Container(
-                    //           width: 100,
-                    //           height: 100,
-                    //           color: Colors.grey,
-                    //         ),
-                    //         Column(
-                    //           children: [
-                    //             Text('ID ${searchState.female!.id}'),
-                    //             Text('Удой ${searchState.female!.milk}'),
-                    //             Text(
-                    //                 'Упитанность ${searchState.female!.fatness}'),
-                    //           ],
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    // ChooseMainAttribute(),
-                    // if (searchState.mainAttribute != null)
-                    //   Text('Main attribute - ${searchState.mainAttribute}'),
-                    // OutlinedButton(
-                    //   onPressed: () {},
-                    //   child: Text('Добавить признак'),
-                    // ),
                     const SizedBox(height: 8),
                     ElevatedButton(
-                      onPressed: searchState.mainAttribute == null ||
+                      onPressed: searchState.mainAttributes == null ||
+                              (searchState.mainAttributes?.isEmpty ?? true) ||
                               searchState.isloading
                           ? null
                           : () {
@@ -121,7 +94,7 @@ class SearchPage extends StatelessWidget {
                                     Column(
                                       children: [
                                         Text(
-                                            'ID ${searchState.foundedMales![index].passport.id}'),
+                                            'ID партнера ${searchState.foundedMales![index].passport.id}'),
                                       ],
                                     ),
                                     Text(
@@ -148,43 +121,62 @@ class SearchPage extends StatelessWidget {
 }
 
 class ChooseMainAttribute extends StatefulWidget {
-  const ChooseMainAttribute({
-    super.key,
-  });
+  const ChooseMainAttribute({super.key});
 
   @override
   State<ChooseMainAttribute> createState() => _ChooseMainAttributeState();
 }
 
 class _ChooseMainAttributeState extends State<ChooseMainAttribute> {
+  final List<Attribute> attributes = [
+    Attribute.milk,
+    Attribute.fatness,
+    Attribute.health,
+    Attribute.weightGain,
+    Attribute.worth,
+  ];
+
+  final List<Attribute> selectedAttributes = [];
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
-        builder: (context, searchState) {
-      return Column(
-        children: [
-          Text('Выберите признак'),
-          Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            children: List<Widget>.generate(
-              Attribute.values.length,
-              (int index) {
-                return ChoiceChip(
-                  label: Text(Attribute.values[index].name),
-                  selected:
-                      searchState.mainAttribute == Attribute.values[index],
-                  onSelected: (bool selected) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Выберите признаки в порядке приоритета'),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 4,
+          runSpacing: 4,
+          children: List<Widget>.generate(
+            attributes.length,
+            (int index) {
+              final attribute = attributes[index];
+              final priority = selectedAttributes.indexOf(attribute) + 1;
+
+              return ChoiceChip(
+                label: Text(
+                  '${attribute.name} ${priority > 0 ? "($priority)" : ""}',
+                ),
+                selected: selectedAttributes.contains(attribute),
+                onSelected: (bool selected) {
+                  setState(() {
+                    if (selected) {
+                      selectedAttributes.add(attribute);
+                    } else {
+                      selectedAttributes.remove(attribute);
+                    }
+                    print(selectedAttributes);
                     context
                         .read<SearchCubit>()
-                        .selectMainAttribute(Attribute.values[index]);
-                  },
-                );
-              },
-            ).toList(),
+                        .selectMainAttribute(selectedAttributes);
+                  });
+                },
+              );
+            },
           ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 }
