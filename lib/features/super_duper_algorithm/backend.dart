@@ -6,6 +6,15 @@ import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:collection/collection.dart';
 
+class OptionsPreparation {
+  final double value;
+  final String name;
+  final String contribution;
+
+  OptionsPreparation(
+      {required this.value, required this.name, required this.contribution});
+}
+
 class Backend {
   static Database? database;
 
@@ -79,34 +88,21 @@ class Backend {
 
   static Future<List<ReproductionResponse>> matchAnimal(
       int animalId, Map<String, double> options) async {
-    final attribute1Value = 0.6;
-    final attribute2Value = 0.4;
-    final attribute3Value = 0.2;
-    final attribute1Name = 'Удой л/день';
-    final attribute2Name = 'Упитанность';
-    final attribute3Name = 'Здоровье (1-10)';
-
     final animal = await getCow(animalId);
     final genotypes = await getCowGenotypes(animalId);
 
-    final targetAnimalAttribute1Contribution = genotypes
-            .firstWhereOrNull(
-                (genotype) => genotype.attribute == attribute1Name)
-            ?.genotype[0] ??
-        "null";
-    final targetAnimalAttribute2Contribution = genotypes
-            .firstWhereOrNull(
-                (genotype) => genotype.attribute == attribute2Name)
-            ?.genotype[0] ??
-        "null";
-    final targetAnimalAttribute3Contribution = genotypes
-            .firstWhereOrNull(
-                (genotype) => genotype.attribute == attribute3Name)
-            ?.genotype[0] ??
-        "null";
+    final preparedOptions = options.entries
+        .map((x) => OptionsPreparation(
+            value: x.value,
+            name: x.key,
+            contribution: genotypes
+                    .firstWhereOrNull((genotype) => genotype.attribute == x.key)
+                    ?.genotype[0] ??
+                "null"))
+        .toList();
 
     final animalGender = animal.gender;
-    final isTargetFemale = animalGender == "Gender.female" ? 1 : 0;
+    final isTargetFemale = animalGender == Gender.female ? 1 : 0;
 
     final SNPcalculation = await Backend.database!.rawQuery(""
         "SELECT id, SUM(SNPContribution) as SNP"
@@ -121,11 +117,11 @@ class Backend {
         " CASE WHEN $isTargetFemale = 1 THEN thisParentGenotypeContribution || '/' || substr(genotype, 1, 1) ELSE substr(genotype, 1, 1) || '/' || thisParentGenotypeContribution END as offspring_genotype"
         " FROM"
         " (SELECT *,"
-        " CASE WHEN attribute = '$attribute1Name' THEN '$targetAnimalAttribute1Contribution' WHEN attribute = '$attribute2Name' THEN '$targetAnimalAttribute2Contribution' WHEN attribute = '$attribute3Name' THEN '$targetAnimalAttribute3Contribution' ELSE 'null' END as thisParentGenotypeContribution,"
-        " CASE WHEN attribute = '$attribute1Name' THEN $attribute1Value WHEN attribute = '$attribute2Name' THEN $attribute2Value WHEN attribute = '$attribute3Name' THEN $attribute3Value ELSE 0 END as attributeWeight"
+        " CASE ${preparedOptions.map((o) => "WHEN attribute = '${o.name}' THEN '${o.contribution}'").join(" ")} ELSE 'null' END as thisParentGenotypeContribution,"
+        " CASE ${preparedOptions.map((o) => "WHEN attribute = '${o.name}' THEN ${o.value}").join(" ")} ELSE 0 END as attributeWeight"
         ' FROM  genotypes g LEFT JOIN passports p on g.id = p.id'
         " WHERE p.gender != '$animalGender'"
-        " AND g.attribute IN ('$attribute1Name', '$attribute2Name', '$attribute3Name')"
+        " AND g.attribute IN (${preparedOptions.map((o) => "'${o.name}'").join(", ")})"
         ")))) GROUP BY id ORDER BY SUM(SNPContribution) DESC"
         " LIMIT 50");
 
@@ -140,16 +136,18 @@ class Backend {
 
       // Подсчёт
       final offspringTraits = <String, double>{};
-      for (final trait in [attribute1Name, attribute2Name, attribute3Name]) {
+      for (final trait in preparedOptions) {
         final thisTrait = genotypes
-                .firstWhereOrNull((genotype) => genotype.attribute == trait)
+                .firstWhereOrNull(
+                    (genotype) => genotype.attribute == trait.name)
                 ?.beta ??
             0;
         final otherTrait = otherGenotypes
-                .firstWhereOrNull((genotype) => genotype.attribute == trait)
+                .firstWhereOrNull(
+                    (genotype) => genotype.attribute == trait.name)
                 ?.beta ??
             0;
-        offspringTraits[trait] = (thisTrait + otherTrait) / 2 + score;
+        offspringTraits[trait.name] = (thisTrait + otherTrait) / 2;
       }
 
       pretendents.add(ReproductionResponse(
