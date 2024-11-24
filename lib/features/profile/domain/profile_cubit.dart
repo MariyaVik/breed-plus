@@ -1,3 +1,4 @@
+import 'package:breed_plus/features/super_duper_algorithm/genotype.dart';
 import 'package:breed_plus/features/super_duper_algorithm/index.dart';
 import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +38,16 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       
     API.addPassport(passport);
+    fetchPassports();
+  }
+    catch (e) {
+      emit(ProfileState.error('Ошибка добавления нового паспорта: $e'));
+    }}
+
+    Future<void> addNewGenotype(Genotype genotype)async{
+    try {
+      
+    API.addGenotype(genotype);
     fetchPassports();
   }
     catch (e) {

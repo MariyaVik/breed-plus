@@ -9,7 +9,7 @@ class AddPassportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(), body: AnimalPassportForm(
+    return Scaffold(appBar: AppBar(title: Text('Новый паспорт'),), body: AnimalPassportForm(
   onSubmit: (Passport passport) {
     print(passport);
     context.read<ProfileCubit>().addNewPassport(passport);

@@ -68,6 +68,10 @@ class API {
     return Backend.bulkInsertPassports([passport]);
   }
 
+  static Future<void> addGenotype(Genotype genotype)async{
+    return Backend.bulkInsertGenotypes([genotype]);
+  }
+
   static Future<void> loadXlsxGenotypes(List<int> bytes) {
     final List<Genotype> genotypes = [];
     var excel = Excel.decodeBytes(bytes);

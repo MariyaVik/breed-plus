@@ -1,3 +1,4 @@
+import 'package:breed_plus/features/profile/ui/add_genotype_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,6 +39,11 @@ class AppRouter {
             name: RouteName.addPassport,
             path: '/${RouteName.addPassport}',
             builder: (context, state) => const AddPassportScreen(),
+          ),
+          GoRoute(
+            name: RouteName.addGenotype,
+            path: '/${RouteName.addGenotype}',
+            builder: (context, state) => const AddGenotypeScreen(),
           ),
         ],
       ),
