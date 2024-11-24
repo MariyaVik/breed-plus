@@ -4,6 +4,7 @@ import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:collection/collection.dart';
 
 class Backend {
   static Database? database;
@@ -77,42 +78,63 @@ class Backend {
   }
 
   static Future<List<ReproductionResponse>> matchAnimal(int animalId) async {
-    final milk = 0.6;
-    final weight = 0.4;
-    final health = 0.2;
-    final attributeMilkName = 'Удой л/день';
-    final attributeWeightName = 'Упитанность';
-    final attributeHealthName = 'Здоровье (1-10)';
+    final attribute1Value = 0.6;
+    final attribute2Value = 0.4;
+    final attribute3Value = 0.2;
+    final attribute1Name = 'Удой л/день';
+    final attribute2Name = 'Упитанность';
+    final attribute3Name = 'Здоровье (1-10)';
 
     final animal = await getCow(animalId);
+    final genotypes = await getCowGenotypes(animalId);
+
+    final targetAnimalAttribute1Contribution = genotypes
+            .firstWhereOrNull(
+                (genotype) => genotype.attribute == attribute1Name)
+            ?.genotype[0] ??
+        "null";
+    final targetAnimalAttribute2Contribution = genotypes
+            .firstWhereOrNull(
+                (genotype) => genotype.attribute == attribute2Name)
+            ?.genotype[0] ??
+        "null";
+    final targetAnimalAttribute3Contribution = genotypes
+            .firstWhereOrNull(
+                (genotype) => genotype.attribute == attribute3Name)
+            ?.genotype[0] ??
+        "null";
+
     final animalGender = animal.gender;
+    final isTargetFemale = animalGender == "Gender.female" ? 1 : 0;
 
     final SNPcalculation = await Backend.database!.rawQuery(""
-        "SELECT id, SUM(SNP) as SNP"
-        " FROM "
-        " (SELECT *, "
-        " (beta * genotypeWeight * attributeWeight) as SNP"
+        // "SELECT id, SUM(SNP) as SNP"
+        // " FROM "
+        " SELECT * "
         " FROM"
         " (SELECT *,"
-        " CAST(replace(replace(replace(genotypeMark, 'alt/alt', '1'), 'ref/alt', '0.5'), 'ref/ref', '0') as real) as genotypeWeight"
+        " CASE WHEN $isTargetFemale = 1 THEN thisParentGenotypeContribution || '/' || substr(genotype, 1, 1) ELSE substr(genotype, 1, 1) || '/' || thisParentGenotypeContribution END as offspring_genotype,"
+        " (CASE WHEN genotypeMark = 'alt/alt' THEN 2 WHEN genotypeMark = 'ref/alt' THEN 1 WHEN genotypeMark = 'ref/ref' THEN 0 ELSE 0 END) * beta as SNPContribution"
         " FROM"
         " (SELECT *,"
+        " "
         " replace(replace(g.genotype, g.alt, 'alt'), g.ref, 'ref') as genotypeMark,"
-        " CASE WHEN attribute = '$attributeMilkName' THEN $milk WHEN attribute = '$attributeWeightName' THEN $weight WHEN attribute = '$attributeHealthName' THEN $health ELSE 0 END as attributeWeight"
+        " CASE WHEN attribute = '$attribute1Name' THEN '$targetAnimalAttribute1Contribution' WHEN attribute = '$attribute2Name' THEN '$targetAnimalAttribute2Contribution' WHEN attribute = '$attribute3Name' THEN '$targetAnimalAttribute3Contribution' ELSE 'null' END as thisParentGenotypeContribution,"
+        " CASE WHEN attribute = '$attribute1Name' THEN $attribute1Value WHEN attribute = '$attribute2Name' THEN $attribute2Value WHEN attribute = '$attribute3Name' THEN $attribute3Value ELSE 0 END as attributeWeight"
         ' FROM passports p RIGHT JOIN genotypes g on g.id = p.id'
         " WHERE p.gender != '$animalGender'"
-        "))) GROUP BY id ORDER BY SUM(SNP) DESC"
+        "))" // GROUP BY id ORDER BY SUM(SNP) DESC"
         " LIMIT 50");
 
     final List<ReproductionResponse> pretendents = [];
     for (final pretendent in SNPcalculation) {
       final id = pretendent['id'] as int;
-      final snp = pretendent['SNP'] as double;
+      // final snp = pretendent['SNP'] as double;
 
       print(id);
       final passport = await Backend.getCow(id);
       final genotypes = await Backend.getCowGenotypes(id);
-      final score = snp;
+      final score = 0.0;
 
       pretendents.add(ReproductionResponse(
           passport: passport, genotypes: genotypes, score: score));
