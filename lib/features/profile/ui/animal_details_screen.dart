@@ -179,7 +179,7 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
+        if(widget.passport.gender == Gender.female)  IconButton(
             onPressed: () {
               _addMilkInfo(context);
             },
