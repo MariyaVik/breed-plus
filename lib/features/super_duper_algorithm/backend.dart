@@ -108,39 +108,38 @@ class Backend {
     final isTargetFemale = animalGender == "Gender.female" ? 1 : 0;
 
     final SNPcalculation = await Backend.database!.rawQuery(""
-        // "SELECT id, SUM(SNP) as SNP"
-        // " FROM "
-        " SELECT * "
-        " FROM"
+        "SELECT id, SUM(SNPContribution) as SNP"
+        " FROM "
         " (SELECT *,"
-        " CASE WHEN $isTargetFemale = 1 THEN thisParentGenotypeContribution || '/' || substr(genotype, 1, 1) ELSE substr(genotype, 1, 1) || '/' || thisParentGenotypeContribution END as offspring_genotype,"
         " (CASE WHEN genotypeMark = 'alt/alt' THEN 2 WHEN genotypeMark = 'ref/alt' THEN 1 WHEN genotypeMark = 'ref/ref' THEN 0 ELSE 0 END) * beta as SNPContribution"
         " FROM"
         " (SELECT *,"
-        " "
-        " replace(replace(g.genotype, g.alt, 'alt'), g.ref, 'ref') as genotypeMark,"
+        " replace(replace(offspring_genotype, alt, 'alt'), ref, 'ref') as genotypeMark"
+        " FROM"
+        " (SELECT *,"
+        " CASE WHEN $isTargetFemale = 1 THEN thisParentGenotypeContribution || '/' || substr(genotype, 1, 1) ELSE substr(genotype, 1, 1) || '/' || thisParentGenotypeContribution END as offspring_genotype"
+        " FROM"
+        " (SELECT *,"
         " CASE WHEN attribute = '$attribute1Name' THEN '$targetAnimalAttribute1Contribution' WHEN attribute = '$attribute2Name' THEN '$targetAnimalAttribute2Contribution' WHEN attribute = '$attribute3Name' THEN '$targetAnimalAttribute3Contribution' ELSE 'null' END as thisParentGenotypeContribution,"
         " CASE WHEN attribute = '$attribute1Name' THEN $attribute1Value WHEN attribute = '$attribute2Name' THEN $attribute2Value WHEN attribute = '$attribute3Name' THEN $attribute3Value ELSE 0 END as attributeWeight"
-        ' FROM passports p RIGHT JOIN genotypes g on g.id = p.id'
+        ' FROM  genotypes g LEFT JOIN passports p on g.id = p.id'
         " WHERE p.gender != '$animalGender'"
-        "))" // GROUP BY id ORDER BY SUM(SNP) DESC"
+        " AND g.attribute IN ('$attribute1Name', '$attribute2Name', '$attribute3Name')"
+        ")))) GROUP BY id ORDER BY SUM(SNPContribution) DESC"
         " LIMIT 50");
 
     final List<ReproductionResponse> pretendents = [];
     for (final pretendent in SNPcalculation) {
       final id = pretendent['id'] as int;
-      // final snp = pretendent['SNP'] as double;
+      final snp = pretendent['SNP'] as double;
 
-      print(id);
       final passport = await Backend.getCow(id);
       final genotypes = await Backend.getCowGenotypes(id);
-      final score = 0.0;
+      final score = snp;
 
       pretendents.add(ReproductionResponse(
           passport: passport, genotypes: genotypes, score: score));
     }
-
-    print(pretendents);
 
     return pretendents;
   }
