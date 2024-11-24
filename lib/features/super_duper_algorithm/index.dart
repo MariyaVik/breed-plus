@@ -21,8 +21,9 @@ class ReproductionResponse {
   final Passport passport;
   final List<Genotype> genotypes;
   final double score;
+  final Map<String, double> offspringTraits;
 
-  ReproductionResponse(
+  ReproductionResponse(this.offspringTraits,
       {required this.passport, required this.genotypes, required this.score});
 }
 
@@ -64,11 +65,11 @@ class API {
     return Backend.bulkInsertPassports(passports);
   }
 
-  static Future<void> addPassport(Passport passport)async{
+  static Future<void> addPassport(Passport passport) async {
     return Backend.bulkInsertPassports([passport]);
   }
 
-  static Future<void> addGenotype(Genotype genotype)async{
+  static Future<void> addGenotype(Genotype genotype) async {
     return Backend.bulkInsertGenotypes([genotype]);
   }
 
@@ -103,7 +104,11 @@ class API {
   }
 
   static Future<List<ReproductionResponse>> matchAnimal(int animalId) {
-    return Backend.matchAnimal(animalId);
+    return Backend.matchAnimal(animalId, {
+      'Удой л/день': 0.6,
+      'Упитанность': 0.4,
+      'Здоровье (1-10)': 0.2,
+    });
   }
 
   static Future matchAll() {
