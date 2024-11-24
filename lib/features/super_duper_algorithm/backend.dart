@@ -77,7 +77,8 @@ class Backend {
         "UPDATE passports SET milk = ? WHERE id = ?", [updatedMilk, cowId]);
   }
 
-  static Future<List<ReproductionResponse>> matchAnimal(int animalId) async {
+  static Future<List<ReproductionResponse>> matchAnimal(
+      int animalId, Map<String, double> options) async {
     final attribute1Value = 0.6;
     final attribute2Value = 0.4;
     final attribute3Value = 0.2;
@@ -133,12 +134,29 @@ class Backend {
       final id = pretendent['id'] as int;
       final snp = pretendent['SNP'] as double;
 
-      final passport = await Backend.getCow(id);
-      final genotypes = await Backend.getCowGenotypes(id);
+      final othrePassport = await Backend.getCow(id);
+      final otherGenotypes = await Backend.getCowGenotypes(id);
       final score = snp;
 
+      // Подсчёт
+      final offspringTraits = <String, double>{};
+      for (final trait in [attribute1Name, attribute2Name, attribute3Name]) {
+        final thisTrait = genotypes
+                .firstWhereOrNull((genotype) => genotype.attribute == trait)
+                ?.beta ??
+            0;
+        final otherTrait = otherGenotypes
+                .firstWhereOrNull((genotype) => genotype.attribute == trait)
+                ?.beta ??
+            0;
+        offspringTraits[trait] = (thisTrait + otherTrait) / 2 + score;
+      }
+
       pretendents.add(ReproductionResponse(
-          passport: passport, genotypes: genotypes, score: score));
+          passport: othrePassport,
+          genotypes: otherGenotypes,
+          score: score,
+          offspringTraits));
     }
 
     return pretendents;
