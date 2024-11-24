@@ -44,11 +44,15 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
       builder: (_) {
         return Container(
           padding: const EdgeInsets.all(16),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
-                child: Text('Удой', style: Theme.of(context).textTheme.titleMedium,),
+                child: Text(
+                  'Удой',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
               Text('Количество литров'),
               TextField(
@@ -159,7 +163,8 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
             _buildDetailRow('Мать (ID)', widget.passport.mother.toString()),
             _buildDetailRow(
                 'Молоко (л)', widget.passport.milk?.toString() ?? 'Не указано'),
-            _buildDetailRow('Жирность (%)', widget.passport.fatness.toString()),
+            _buildDetailRow(
+                'Упитанность (%)', widget.passport.fatness.toString()),
             _buildDetailRow(
                 'Инбридинг (%)', widget.passport.inbredding.toString()),
             _buildDetailRow('Прирост веса (г)',
@@ -180,12 +185,13 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-        if(widget.passport.gender == Gender.female)  IconButton(
-            onPressed: () {
-              _addMilkInfo(context);
-            },
-            icon: const Icon(Icons.water_drop_rounded),
-          ),
+          if (widget.passport.gender == Gender.female)
+            IconButton(
+              onPressed: () {
+                _addMilkInfo(context);
+              },
+              icon: const Icon(Icons.water_drop_rounded),
+            ),
         ],
       ),
       body: SingleChildScrollView(
