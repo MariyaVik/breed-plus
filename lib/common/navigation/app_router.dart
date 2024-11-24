@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/base/ui/base_screen.dart';
 import '../../features/login/ui/login_screen.dart';
+import '../../features/profile/ui/add_passport_screen.dart';
 import '../../features/profile/ui/animal_details_screen.dart';
 import '../../features/super_duper_algorithm/passport.dart';
 import '../error_page.dart';
@@ -32,6 +33,11 @@ class AppRouter {
             builder: (context, state) {
               return AnimalDetailsScreen(passport: state.extra as Passport);
             },
+          ),
+          GoRoute(
+            name: RouteName.addPassport,
+            path: '/${RouteName.addPassport}',
+            builder: (context, state) => const AddPassportScreen(),
           ),
         ],
       ),

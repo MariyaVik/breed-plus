@@ -39,7 +39,7 @@ class ProfilePage extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.edit),
                 title: Text('Вручную'),
-                onTap: () {},
+                onTap: isGen ? null :() {context.pop();  context.pushNamed(RouteName.addPassport);},
               ),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:breed_plus/features/super_duper_algorithm/index.dart';
+import 'package:breed_plus/features/super_duper_algorithm/passport.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'profile_state.dart';
@@ -31,6 +32,16 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileState.error('Ошибка загрузки файла: $e'));
     }
   }
+
+  Future<void> addNewPassport(Passport passport)async{
+    try {
+      
+    API.addPassport(passport);
+    fetchPassports();
+  }
+    catch (e) {
+      emit(ProfileState.error('Ошибка добавления нового паспорта: $e'));
+    }}
 
   Future<void> loadXlsxGenotypes(List<int> bytes) async {
     try {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../super_duper_algorithm/index.dart';
@@ -43,20 +44,20 @@ class _AnimalDetailsScreenState extends State<AnimalDetailsScreen> {
       builder: (_) {
         return Container(
           padding: const EdgeInsets.all(16),
-          child: Column(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
-                child: Text('Удой'),
+                child: Text('Удой', style: Theme.of(context).textTheme.titleMedium,),
               ),
               Text('Количество литров'),
               TextField(
-                keyboardType: const TextInputType.numberWithOptions(),
+                keyboardType: TextInputType.number,
                 controller: litersCont,
               ),
               Text('Количество дней'),
               TextField(
-                keyboardType: const TextInputType.numberWithOptions(),
+                keyboardType: TextInputType.number,
                 controller: daysCont,
               ),
               Center(
