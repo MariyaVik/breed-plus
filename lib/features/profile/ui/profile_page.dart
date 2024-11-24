@@ -159,9 +159,11 @@ class MyAnimalCard extends StatelessWidget {
   const MyAnimalCard({
     super.key,
     required this.passport,
+    this.buttonShow = true,
   });
 
   final Passport passport;
+  final bool buttonShow;
 
   @override
   Widget build(BuildContext context) {
@@ -197,13 +199,14 @@ class MyAnimalCard extends StatelessWidget {
                 ],
               ),
               // if (passport.gender == Gender.female)
-              OutlinedButton(
-                onPressed: () {
-                  context.read<SearchCubit>().selectFemale(passport);
-                  context.read<AppCubit>().selectTab(0);
-                },
-                child: Text('Выбрать пару'),
-              ),
+              if (buttonShow)
+                OutlinedButton(
+                  onPressed: () {
+                    context.read<SearchCubit>().selectFemale(passport);
+                    context.read<AppCubit>().selectTab(0);
+                  },
+                  child: Text('Выбрать пару'),
+                ),
             ],
           ),
         ),

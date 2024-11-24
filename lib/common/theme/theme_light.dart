@@ -17,7 +17,6 @@ ColorScheme _colorScheme = ColorScheme.fromSwatch().copyWith(
 );
 
 ButtonStyle _elevButtonLight = ElevatedButton.styleFrom(
-
     backgroundColor: AppColors.orange,
     foregroundColor: AppColors.white,
     disabledBackgroundColor: AppColors.greyLight,
@@ -26,14 +25,16 @@ ButtonStyle _elevButtonLight = ElevatedButton.styleFrom(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)));
 
 ButtonStyle _outButtonLight = OutlinedButton.styleFrom(
-  foregroundColor: WidgetStateColor.resolveWith((Set<WidgetState> states) =>
-      states.contains(WidgetState.pressed)
-          ? AppColors.white
-          : AppColors.orange,),
-  backgroundColor: WidgetStateColor.resolveWith((Set<WidgetState> states) =>
-      states.contains(WidgetState.pressed)
-          ? AppColors.greenLight
-          : AppColors.white,),
+  foregroundColor: WidgetStateColor.resolveWith(
+    (Set<WidgetState> states) => states.contains(WidgetState.pressed)
+        ? AppColors.white
+        : AppColors.orange,
+  ),
+  backgroundColor: WidgetStateColor.resolveWith(
+    (Set<WidgetState> states) => states.contains(WidgetState.pressed)
+        ? AppColors.greenLight
+        : AppColors.white,
+  ),
   side: BorderSide(
       color: WidgetStateColor.resolveWith((Set<WidgetState> states) =>
           states.contains(WidgetState.pressed)
@@ -43,23 +44,27 @@ ButtonStyle _outButtonLight = OutlinedButton.styleFrom(
   disabledForegroundColor: AppColors.greyMedium,
 );
 
-ChipThemeData _chipLight =  ChipThemeData(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-    showCheckmark: false,
-    padding: const EdgeInsets.all(8),
-    backgroundColor: AppColors.white,
-    selectedColor: AppColors.greenDark,
-    labelStyle: TextStyle(color: WidgetStateColor.resolveWith((Set<WidgetState> states) =>
-      states.contains(WidgetState.selected)
-          ? AppColors.white
-          : AppColors.black,)),
-    side: BorderSide(color: WidgetStateColor.resolveWith((Set<WidgetState> states) =>
-      states.contains(WidgetState.selected)
+ChipThemeData _chipLight = ChipThemeData(
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+  showCheckmark: false,
+  padding: const EdgeInsets.all(2),
+  backgroundColor: AppColors.white,
+  selectedColor: AppColors.greenDark,
+  labelStyle: TextStyle(
+      fontSize: 14,
+      color: WidgetStateColor.resolveWith(
+        (Set<WidgetState> states) => states.contains(WidgetState.selected)
+            ? AppColors.white
+            : AppColors.black,
+      )),
+  side: BorderSide(
+    color: WidgetStateColor.resolveWith(
+      (Set<WidgetState> states) => states.contains(WidgetState.selected)
           ? AppColors.greenDark
-          : AppColors.greyDark,),),
-   
-  );
-
+          : AppColors.greyDark,
+    ),
+  ),
+);
 
 InputDecorationTheme _inputDecorationTheme = const InputDecorationTheme(
   suffixIconColor: AppColors.greyDark,
